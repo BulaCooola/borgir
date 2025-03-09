@@ -114,7 +114,7 @@ router.get("/user/:userId", async (req, res) => {
  * @desc    Delete a review
  * @access  Public
  */
-router.delete("/:reviewId", async (req, res) => {
+router.delete("/:reviewId", requireAuth(), async (req, res) => {
   try {
     const result = await reviewMethods.deleteReview(req.params.reviewId);
     res.json(result);
@@ -128,7 +128,7 @@ router.delete("/:reviewId", async (req, res) => {
  * @desc    Update a review
  * @access  Public
  */
-router.put("/:reviewId", async (req, res) => {
+router.put("/:reviewId", requireAuth(), async (req, res) => {
   try {
     const updatedFields = req.body;
     const updatedReview = await reviewMethods.updateReview(req.params.reviewId, updatedFields);

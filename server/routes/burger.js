@@ -11,6 +11,7 @@ const router = express.Router();
  * @access  Private (Requires authentication)
  */
 router.post("/", requireAuth(), async (req, res) => {
+  // * Good
   try {
     const { name, restaurant, description, imageUrl } = req.body;
     if (!name || !restaurant) {
@@ -45,6 +46,7 @@ router.post("/", requireAuth(), async (req, res) => {
  * @access  Public
  */
 router.get("/", async (req, res) => {
+  // * Good
   try {
     const burgerCollection = await burgers();
     const allBurgers = await burgerCollection.find({}).toArray();
@@ -60,6 +62,7 @@ router.get("/", async (req, res) => {
  * @access  Public
  */
 router.get("/:id", async (req, res) => {
+  // * Good
   try {
     const burgerId = req.params.id;
     if (!ObjectId.isValid(burgerId)) return res.status(400).json({ error: "Invalid burger ID" });
@@ -81,6 +84,7 @@ router.get("/:id", async (req, res) => {
  * @access  Public
  */
 router.get("/restaurant/:restaurant", async (req, res) => {
+  // * Good
   try {
     const restaurantName = req.params.restaurant;
 
@@ -102,6 +106,7 @@ router.get("/restaurant/:restaurant", async (req, res) => {
  * @access  Private (Requires authentication)
  */
 router.put("/:id", requireAuth(), async (req, res) => {
+  // * Good
   try {
     const burgerId = req.params.id;
     if (!ObjectId.isValid(burgerId)) return res.status(400).json({ error: "Invalid burger ID" });
