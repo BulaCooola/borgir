@@ -1,8 +1,28 @@
+import { useEffect, useState } from "react";
 import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function HomePage() {
   const { isSignedIn, user } = useUser();
+
+  useEffect(() => {
+    async function getUserAndNotifications() {
+      console.log(user);
+      await axios.post("http://localhost:3000/newUser", {
+        id: user.id,
+        email: user.primaryEmailAddress?.emailAddress,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        profilePicture: user.imageUrl,
+      });
+    }
+
+    if (isSignedIn) {
+      getUserAndNotifications();
+    }
+  }, [isSignedIn]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">

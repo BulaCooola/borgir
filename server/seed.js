@@ -1,6 +1,8 @@
 import { burgers, reviews, users } from "./configs/mongo/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import { dbConnection, closeConnection } from "./configs/mongo/mongoConnections.js";
+import userMethods from "./data/users.js";
+import reviewMethods from "./data/reviews.js";
 
 const seedDatabase = async () => {
   const db = await dbConnection();
@@ -18,13 +20,17 @@ const seedDatabase = async () => {
     const user1 = await userCollection.insertOne({
       username: "burger_lover",
       email: "burgerlover@example.com",
-      passwordHash: "hashed_password_1", // Replace with real hashed passwords in production
+      firstName: "John",
+      lastName: "Smith",
+      profilePicture: null,
     });
 
     const user2 = await userCollection.insertOne({
       username: "grillmaster",
       email: "grillmaster@example.com",
-      passwordHash: "hashed_password_2",
+      firstName: "John",
+      lastName: "Doe",
+      profilePicture: null,
     });
 
     console.log("✅ Users seeded.");

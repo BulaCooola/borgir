@@ -13,10 +13,11 @@ const exportedMethods = {
    * @param  {String} comment   Review description of the burger
    * @return {Object}           Return object containing reviewId
    */
-  async createReview(userId, burgerId, rating, comment) {
+  async createReview(userId, burgerId, restaurantName, rating, comment, imageUrl) {
     if (
       !userId ||
       !burgerId ||
+      !restaurantName ||
       typeof rating !== "number" ||
       rating < 1 ||
       rating > 5 ||
@@ -26,11 +27,15 @@ const exportedMethods = {
     }
 
     const reviewCollection = await reviews();
+    console.log("hi");
     const newReview = {
-      userId: new ObjectId(userId),
+      userId: userId,
       burgerId: new ObjectId(burgerId),
+      restaurantName: restaurantName,
       rating,
       comment,
+      imageUrl,
+      replies: [],
       createdAt: new Date(),
     };
 

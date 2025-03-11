@@ -6,6 +6,8 @@ import Dashboard from "./pages/Dashboard";
 import HomePage from "./pages/Home";
 import Login from "./pages/Login";
 import Navbar from "./components/NavBar";
+import ForumList from "./pages/ForumList";
+import ReviewList from "./pages/ReviewList";
 import "./App.css";
 
 function App() {
@@ -17,9 +19,11 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* <Route path="/burgers" element={<Burgers />} /> */}
+        <Route path="/forum" element={<ForumList />} />
+        <Route path="/reviews" element={<ReviewList />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        {/* <Route path="/forum/:id" element={<ForumPage />} /> */}
       </Routes>
     </>
   );

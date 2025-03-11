@@ -12,6 +12,10 @@ export default function Navbar() {
           Home
         </Link>
 
+        <Link to="/forum" className="mr-4">
+          Forum
+        </Link>
+
         <Link to="/reviews" className="mr-4">
           Reviews
         </Link>

@@ -38,14 +38,14 @@ router.post("/", requireAuth(), async (req, res) => {
       return res.status(400).json({ error: "Missing required fields." });
     }
 
-    const newReview = await reviewMethods.createReview({
-      burgerId,
+    const newReview = await reviewMethods.createReview(
       userId,
+      burgerId,
       restaurantName,
       rating,
       comment,
-      imageUrl,
-    });
+      imageUrl
+    );
 
     res.status(201).json(newReview);
   } catch (error) {
