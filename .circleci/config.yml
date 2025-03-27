@@ -3,32 +3,102 @@
 version: 2.1
 orbs:
   node: circleci/node@5
+
 jobs:
-  test-node:
-    # Install node dependencies and run tests
-    executor: node/default
-    working_directory: ~/project/server
-    steps:
-      - checkout:
-          path: ~/project
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Run tests
-          command: npm test --passWithNoTests
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
+  # Install dependencies and run tests
+  build_test:
     docker:
-      - image: cimg/base:stable
+      - image: circleci/node:5
+    # install-deps:
+    #   executor: node-executor
     steps:
-      # Replace this with steps to deploy to users
+      - checkout
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: Install Backend Dependencies
+          command: cd server && npm install --save
+      - run:
+          name: Install Frontend Dependencies
+          command: cd client && npm install --save
+      - persist_to_workspace:
+          root: .
+          paths:
+            - server/node_modules/
+            - client/node_modules/
+
+  build_docker_image:
+    docker:
+      - image: circleci/node:5
+    steps:
+      - checkout
+      - setup_remote_docker:
+        docker_layer_caching: false
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t borgir-app -t borgir-app:latest .
+            docker push borgir-app:latest
+
 workflows:
-  build-and-test:
+  build_test:
     jobs:
-      - test-node
-    # - deploy:
-    #     requires:
-    #       - test-node
+      - build_test
+      - build_docker_image
+
+  # test-backend:
+  #   executor: node-executor
+  #   steps:
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Run Backend Tests
+  #         command: cd server && npm test --passWithNoTests
+
+  # test-frontend:
+  #   executor: node-executor
+  #   steps:
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Run Frontend Tests
+  #         command: cd client && npm test --passWithNoTests
+
+  # deploy-backend:
+  #   executor: node-executor
+  #   steps:
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Deploy Backend to Railway
+  #         command: npm run start
+
+  # deploy-frontend:
+  #   executor: node-executor
+  #   steps:
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Deploy Frontend to Vercel
+  #         command: |
+  #           npm install -g vercel
+  #           vercel --token $VERCEL_TOKEN --prod
+# workflows:
+#   build-and-test:
+#     jobs:
+#       - test-node
+# - deploy:
+#     requires:
+#       - test-node
+# ! EXAMPLE config.yml FILE USING DOCKER IMAGES
+# version: 2.1
+
+# jobs:
+#   deploy:
+#     docker:
+#       - image: arvindr226/alpine-ssh
+#     steps:
+#       - run: ssh -oStrictHostKeyChecking=no -v $USER@$DNS "./deploy.sh"
+
+# workflows:
+#   deploy-to-ec2:
+#     jobs:
+#       - deploy
