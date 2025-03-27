@@ -8,7 +8,7 @@ jobs:
   # Install dependencies and run tests
   build_test:
     docker:
-      - image: circleci/node:5
+      - image: circleci/node:20
     # install-deps:
     #   executor: node-executor
     steps:
