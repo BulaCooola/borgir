@@ -18,12 +18,12 @@ jobs:
           command: cd server && npm install --save
       - run:
           name: Install Frontend Dependencies
-          command: cd client && npm install --save
+          command: cd borgir-app && npm install --save
       - persist_to_workspace:
           root: .
           paths:
             - server/node_modules/
-            - client/node_modules/
+            - borgir-app/node_modules/
 
   build_docker_image:
     docker:
