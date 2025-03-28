@@ -25,7 +25,6 @@ jobs:
             - server/node_modules/
             - borgir-app/node_modules/
   deploy-backend:
-    executor: node-executor
     steps:
       - attach_workspace:
           at: .
@@ -34,7 +33,6 @@ jobs:
           command: npm run start
 
   deploy-frontend:
-    executor: node-executor
     steps:
       - attach_workspace:
           at: .
