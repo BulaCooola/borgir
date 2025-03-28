@@ -25,24 +25,24 @@ jobs:
             - server/node_modules/
             - borgir-app/node_modules/
 
-  build_docker_image:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: false
-      - run:
-          name: Build Docker Image
-          command: |
-            docker-compose -f docker-compose.yml build
-            docker-compose push
+  # build_docker_image:
+  #   docker:
+  #     - image: circleci/node:latest
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: false
+  #     - run:
+  #         name: Build Docker Image
+  #         command: |
+  #           docker-compose -f docker-compose.yml build
+  #           docker-compose push
 
-workflows:
-  build_test:
-    jobs:
-      - build_test
-      - build_docker_image
+  # workflows:
+  #   build_test:
+  #     jobs:
+  #       - build_test
+  #       - build_docker_image
 
   # test-backend:
   #   executor: node-executor
@@ -62,32 +62,31 @@ workflows:
   #         name: Run Frontend Tests
   #         command: cd client && npm test --passWithNoTests
 
-  # deploy-backend:
-  #   executor: node-executor
-  #   steps:
-  #     - attach_workspace:
-  #         at: .
-  #     - run:
-  #         name: Deploy Backend to Railway
-  #         command: npm run start
+  deploy-backend:
+    executor: node-executor
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Deploy Backend to Railway
+          command: npm run start
 
-  # deploy-frontend:
-  #   executor: node-executor
-  #   steps:
-  #     - attach_workspace:
-  #         at: .
-  #     - run:
-  #         name: Deploy Frontend to Vercel
-  #         command: |
-  #           npm install -g vercel
-  #           vercel --token $VERCEL_TOKEN --prod
-# workflows:
-#   build-and-test:
-#     jobs:
-#       - test-node
-# - deploy:
-#     requires:
-#       - test-node
+  deploy-frontend:
+    executor: node-executor
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Deploy Frontend to Vercel
+          command: |
+            npm install -g vercel
+            vercel --token $VERCEL_TOKEN --prod
+workflows:
+  build_test:
+    jobs:
+      - build_test
+      - deploy-backend
+      - deploy-frontend
 # ! EXAMPLE config.yml FILE USING DOCKER IMAGES
 # version: 2.1
 
