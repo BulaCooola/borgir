@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: server/Dockerfile  # Path to your backend Dockerfile
+    ports:
+      - "3000:3000"  # Expose backend port to host
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: borgir-app/Dockerfile  # Path to your frontend Dockerfile
+    ports:
+      - "80:80"  # Expose frontend port to host
+    depends_on:
+      - backend  # Ensure the backend is up before the frontend starts
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

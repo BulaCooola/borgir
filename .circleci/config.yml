@@ -35,8 +35,8 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t borgir-app -t borgir-app:latest .
-            docker push borgir-app:latest
+            docker-compose -f docker-compose.yml build
+            docker-compose push
 
 workflows:
   build_test:
