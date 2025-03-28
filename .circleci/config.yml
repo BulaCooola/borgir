@@ -24,44 +24,6 @@ jobs:
           paths:
             - server/node_modules/
             - borgir-app/node_modules/
-
-  # build_docker_image:
-  #   docker:
-  #     - image: circleci/node:latest
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker:
-  #         docker_layer_caching: false
-  #     - run:
-  #         name: Build Docker Image
-  #         command: |
-  #           docker-compose -f docker-compose.yml build
-  #           docker-compose push
-
-  # workflows:
-  #   build_test:
-  #     jobs:
-  #       - build_test
-  #       - build_docker_image
-
-  # test-backend:
-  #   executor: node-executor
-  #   steps:
-  #     - attach_workspace:
-  #         at: .
-  #     - run:
-  #         name: Run Backend Tests
-  #         command: cd server && npm test --passWithNoTests
-
-  # test-frontend:
-  #   executor: node-executor
-  #   steps:
-  #     - attach_workspace:
-  #         at: .
-  #     - run:
-  #         name: Run Frontend Tests
-  #         command: cd client && npm test --passWithNoTests
-
   deploy-backend:
     executor: node-executor
     steps:
@@ -101,3 +63,40 @@ workflows:
 #   deploy-to-ec2:
 #     jobs:
 #       - deploy
+
+# build_docker_image:
+#   docker:
+#     - image: circleci/node:latest
+#   steps:
+#     - checkout
+#     - setup_remote_docker:
+#         docker_layer_caching: false
+#     - run:
+#         name: Build Docker Image
+#         command: |
+#           docker-compose -f docker-compose.yml build
+#           docker-compose push
+
+# workflows:
+#   build_test:
+#     jobs:
+#       - build_test
+#       - build_docker_image
+
+# test-backend:
+#   executor: node-executor
+#   steps:
+#     - attach_workspace:
+#         at: .
+#     - run:
+#         name: Run Backend Tests
+#         command: cd server && npm test --passWithNoTests
+
+# test-frontend:
+#   executor: node-executor
+#   steps:
+#     - attach_workspace:
+#         at: .
+#     - run:
+#         name: Run Frontend Tests
+#         command: cd client && npm test --passWithNoTests
