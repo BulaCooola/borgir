@@ -24,29 +24,70 @@ jobs:
           paths:
             - server/node_modules/
             - borgir-app/node_modules/
-  deploy-backend:
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Deploy Backend to Railway
-          command: npm run start
 
-  deploy-frontend:
+  build_docker_image:
+    docker:
+      - image: circleci/node:latest
     steps:
-      - attach_workspace:
-          at: .
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
       - run:
-          name: Deploy Frontend to Vercel
+          name: Build Docker Image
           command: |
-            npm install -g vercel
-            vercel --token $VERCEL_TOKEN --prod
+            docker-compose -f docker-compose.yml build
+            docker-compose push
+
 workflows:
   build_test:
     jobs:
       - build_test
-      - deploy-backend
-      - deploy-frontend
+      - build_docker_image
+
+  # test-backend:
+  #   executor: node-executor
+  #   steps:
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Run Backend Tests
+  #         command: cd server && npm test --passWithNoTests
+
+  # test-frontend:
+  #   executor: node-executor
+  #   steps:
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Run Frontend Tests
+  #         command: cd client && npm test --passWithNoTests
+
+  # deploy-backend:
+  #   executor: node-executor
+  #   steps:
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Deploy Backend to Railway
+  #         command: npm run start
+
+  # deploy-frontend:
+  #   executor: node-executor
+  #   steps:
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Deploy Frontend to Vercel
+  #         command: |
+  #           npm install -g vercel
+  #           vercel --token $VERCEL_TOKEN --prod
+# workflows:
+#   build-and-test:
+#     jobs:
+#       - test-node
+# - deploy:
+#     requires:
+#       - test-node
 # ! EXAMPLE config.yml FILE USING DOCKER IMAGES
 # version: 2.1
 
@@ -61,40 +102,3 @@ workflows:
 #   deploy-to-ec2:
 #     jobs:
 #       - deploy
-
-# build_docker_image:
-#   docker:
-#     - image: circleci/node:latest
-#   steps:
-#     - checkout
-#     - setup_remote_docker:
-#         docker_layer_caching: false
-#     - run:
-#         name: Build Docker Image
-#         command: |
-#           docker-compose -f docker-compose.yml build
-#           docker-compose push
-
-# workflows:
-#   build_test:
-#     jobs:
-#       - build_test
-#       - build_docker_image
-
-# test-backend:
-#   executor: node-executor
-#   steps:
-#     - attach_workspace:
-#         at: .
-#     - run:
-#         name: Run Backend Tests
-#         command: cd server && npm test --passWithNoTests
-
-# test-frontend:
-#   executor: node-executor
-#   steps:
-#     - attach_workspace:
-#         at: .
-#     - run:
-#         name: Run Frontend Tests
-#         command: cd client && npm test --passWithNoTests
