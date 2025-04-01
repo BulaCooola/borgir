@@ -3,47 +3,50 @@ import { useAuth, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/c
 
 export default function NavBar() {
   const { signOut } = useAuth();
-  return (
-    <nav className="p-4 bg-yellow-500 flex justify-between items-center">
-      <h1 className="text-xl font-bold">Borgir 🍔</h1>
-      <div>
-        <Link to="/" className="mr-4">
-          Home
-        </Link>
 
-        <Link to="/forum" className="mr-4">
-          Forum
-        </Link>
+  return <h1>Bruh</h1>;
 
-        <Link to="/reviews" className="mr-4">
-          Reviews
-        </Link>
+  // return (
+  //   <nav className="p-4 bg-yellow-500 flex justify-between items-center">
+  //     <h1 className="text-xl font-bold">Borgir 🍔</h1>
+  //     <div>
+  //       <Link to="/" className="mr-4">
+  //         Home
+  //       </Link>
 
-        <SignedIn>
-          <Link to="/dashboard" className="mr-4">
-            Dashboard
-          </Link>
+  //       <Link to="/forum" className="mr-4">
+  //         Forum
+  //       </Link>
 
-          <Link to="/post" className="mr-4">
-            Post
-          </Link>
+  //       <Link to="/reviews" className="mr-4">
+  //         Reviews
+  //       </Link>
 
-          <button onClick={() => signOut()} className="bg-red-500 px-3 py-1 rounded text-white">
-            Logout
-          </button>
+  //       <SignedIn>
+  //         <Link to="/dashboard" className="mr-4">
+  //           Dashboard
+  //         </Link>
 
-          <UserButton className="px-3 mx-4" />
-        </SignedIn>
+  //         <Link to="/post" className="mr-4">
+  //           Post
+  //         </Link>
 
-        <SignedOut>
-          <SignInButton
-            mode="modal"
-            className="bg-blue-500 px-3 py-1 rounded text-white cursor-pointer"
-          >
-            <button>Sign In</button>
-          </SignInButton>
-        </SignedOut>
-      </div>
-    </nav>
-  );
+  //         <button onClick={() => signOut()} className="bg-red-500 px-3 py-1 rounded text-white">
+  //           Logout
+  //         </button>
+
+  //         <UserButton className="px-3 mx-4" />
+  //       </SignedIn>
+
+  //       <SignedOut>
+  //         <SignInButton
+  //           mode="modal"
+  //           className="bg-blue-500 px-3 py-1 rounded text-white cursor-pointer"
+  //         >
+  //           <button>Sign In</button>
+  //         </SignInButton>
+  //       </SignedOut>
+  //     </div>
+  //   </nav>
+  // );
 }
