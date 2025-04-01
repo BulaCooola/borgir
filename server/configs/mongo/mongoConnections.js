@@ -6,6 +6,7 @@ let _db = undefined;
 
 export const dbConnection = async () => {
   if (!_connection) {
+    console.log(mongoConfig.serverUrl);
     _connection = await MongoClient.connect(mongoConfig.serverUrl);
     _db = _connection.db(mongoConfig.database);
   }

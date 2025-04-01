@@ -8,12 +8,6 @@ jobs:
   # Install dependencies and run tests
   build_and_test:
     executor: node/default
-    docker:
-      - image: circleci/node:latest
-      - image: mongo:latest
-        name: mongo
-        ports:
-          - "27017:27017"
     steps:
       - checkout
       - run:
