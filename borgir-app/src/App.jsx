@@ -7,7 +7,7 @@ import HomePage from "./pages/Home";
 import Login from "./pages/Login";
 import ForumList from "./pages/ForumList";
 import ReviewList from "./pages/ReviewList";
-import NavBar from "@/components/NavBar.jsx";
+import NavBar from "./components/NavBar.jsx";
 import "./App.css";
 
 function App() {
