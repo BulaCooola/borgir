@@ -5,9 +5,9 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import HomePage from "./pages/Home";
 import Login from "./pages/Login";
-import Navbar from "./components/NavBar";
 import ForumList from "./pages/ForumList";
 import ReviewList from "./pages/ReviewList";
+import Navbar from "./components/NavBar";
 import "./App.css";
 
 function App() {
