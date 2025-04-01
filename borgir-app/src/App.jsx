@@ -7,7 +7,7 @@ import HomePage from "./pages/Home";
 import Login from "./pages/Login";
 import ForumList from "./pages/ForumList";
 import ReviewList from "./pages/ReviewList";
-import Navbar from "./components/NavBar";
+import NavBar from "./components/NavBar";
 import "./App.css";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      <NavBar />
 
       <Routes>
         <Route path="/" element={<HomePage />} />
