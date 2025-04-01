@@ -10,14 +10,18 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
       - run:
-          command: cd server && npm run start
+          name: Install server dependencies
+          command: cd server && npm install
+      - run:
+          name: Install client dependencies
+          command: cd borgir-app && npm install
+      - run:
           name: Run server
+          command: cd server && npm run start
       - run:
+          name: Build client
           command: cd borgir-app && npm run build
-          name: Run client
       - persist_to_workspace:
           root: ~/project
           paths:
