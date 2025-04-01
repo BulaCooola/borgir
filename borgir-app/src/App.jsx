@@ -12,7 +12,7 @@ import "./App.css";
 
 function App() {
   return (
-    <>
+    <div>
       <NavBar />
 
       <Routes>
@@ -23,7 +23,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         {/* <Route path="/forum/:id" element={<ForumPage />} /> */}
       </Routes>
-    </>
+    </div>
   );
 }
 
