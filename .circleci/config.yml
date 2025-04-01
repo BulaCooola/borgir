@@ -6,6 +6,23 @@ orbs:
 
 jobs:
   # Install dependencies and run tests
+  build_and_test:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          command: cd server && npm run start
+          name: Run server
+      - run:
+          command: cd borgir-app && npm run build
+          name: Run client
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - .
+
   build_test:
     docker:
       - image: circleci/node:latest
@@ -25,24 +42,24 @@ jobs:
             - server/node_modules/
             - borgir-app/node_modules/
 
-  build_docker_image:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: false
-      - run:
-          name: Build Docker Image
-          command: |
-            docker-compose -f docker-compose.yml build
-            docker-compose push
+  # build_docker_image:
+  #   docker:
+  #     - image: circleci/node:latest
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: false
+  #     - run:
+  #         name: Build Docker Image
+  #         command: |
+  #           docker-compose -f docker-compose.yml build
+  #           docker-compose push
 
 workflows:
   build_test:
     jobs:
-      - build_test
-      - build_docker_image
+      - build_and_test
+      # - build_docker_image
 
   # test-backend:
   #   executor: node-executor
