@@ -4,7 +4,7 @@ import { useAuth, useUser, UserButton } from "@clerk/clerk-react"; // Import Cle
 
 export default function ReviewForm() {
   const [newTopic, setNewTopic] = useState({ title: "", description: "" });
-  const [showReplies, setShowReplies] = useState({}); // Track visibility of replies
+  // const [showReplies, setShowReplies] = useState({}); // Track visibility of replies
 
   const { getToken } = useAuth(); // Get Clerk token
   const { isSignedIn, user } = useUser();

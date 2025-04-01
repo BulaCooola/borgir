@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import axios from "axios";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
@@ -42,6 +42,13 @@ export default function ForumList() {
     setNewTopic({ title: "", description: "" });
   };
 
+  if (error) {
+    return (
+      <>
+        <p>Server Error</p>
+      </>
+    );
+  }
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="max-w-3xl w-full bg-white p-8 rounded-2xl shadow-lg">

@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import { useAuth, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 
 export default function NavBar() {
+  const { signOut } = useAuth();
   return (
     <nav className="p-4 bg-yellow-500 flex justify-between items-center">
       <h1 className="text-xl font-bold">Borgir 🍔</h1>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import axios from "axios";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
@@ -6,7 +6,7 @@ import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { getReviews, reviewURLEndpoint as cacheKey } from "../api/borgirAPI";
 import ReviewForm from "./ReviewForm";
 
-const fetcher = (url) => axios.get(url).then((res) => res.data);
+// const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 export default function ReviewList() {
   const {

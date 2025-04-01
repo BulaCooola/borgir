@@ -120,7 +120,7 @@ router.put("/:id", requireAuth(), async (req, res) => {
     if (imageUrl) updatedFields.imageUrl = imageUrl;
 
     if (Object.keys(updatedFields).length === 0)
-      return res.status(400).json({ error: "No fields provided for update" });
+      return res.status(400).json({ error: "No fields pro1vided for update" });
 
     const burgerCollection = await burgers();
     const updatedBurger = await burgerCollection.findOneAndUpdate(
