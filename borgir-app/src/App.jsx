@@ -7,13 +7,13 @@ import HomePage from "./pages/Home";
 import Login from "./pages/Login";
 import ForumList from "./pages/ForumList";
 import ReviewList from "./pages/ReviewList";
-import NavBar from "./components/NavBar.jsx";
+import NavigationBar from "./components/NavigationBar.jsx";
 import "./App.css";
 
 function App() {
   return (
     <div>
-      <NavBar />
+      <NavigationBar />
 
       <Routes>
         <Route path="/" element={<HomePage />} />
