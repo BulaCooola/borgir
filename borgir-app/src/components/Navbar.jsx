@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth, SignInButton, UserButton, UserProfile } from "@clerk/clerk-react";
 
-export default function Navbar() {
+export default function NavBar() {
   const { isSignedIn, signOut } = useAuth();
 
   return (
