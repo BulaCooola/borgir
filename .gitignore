@@ -27,3 +27,4 @@ dist-ssr
 .env
 # Ignore all .db files globally
 *.db
+coverage

@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 import React from "react";
-import { ClerkProvider } from "@clerk/clerk-react";
+// import { ClerkProvider } from "@clerk/clerk-react";
 
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -16,8 +16,8 @@ if (!PUBLISHABLE_KEY) {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-      <App />
-    </ClerkProvider>
+    {/* <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/"> */}
+    <App />
+    {/* </ClerkProvider> */}
   </BrowserRouter>
 );

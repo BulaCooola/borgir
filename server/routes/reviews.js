@@ -1,6 +1,5 @@
 // Importing Packages
 import express from "express";
-import { requireAuth } from "@clerk/express";
 
 // Importing Methods
 import reviewMethods from "../data/reviews.js";
@@ -29,7 +28,7 @@ router.get("/", async (req, res) => {
  * @desc    Create a new review
  * @access  Public
  */
-router.post("/", requireAuth(), async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const userId = req.auth.userId;
     const { burgerId, restaurantName, rating, comment, imageUrl } = req.body;
@@ -114,7 +113,7 @@ router.get("/user/:userId", async (req, res) => {
  * @desc    Delete a review
  * @access  Public
  */
-router.delete("/:reviewId", requireAuth(), async (req, res) => {
+router.delete("/:reviewId", async (req, res) => {
   try {
     const result = await reviewMethods.deleteReview(req.params.reviewId);
     res.json(result);
@@ -128,7 +127,7 @@ router.delete("/:reviewId", requireAuth(), async (req, res) => {
  * @desc    Update a review
  * @access  Public
  */
-router.put("/:reviewId", requireAuth(), async (req, res) => {
+router.put("/:reviewId", async (req, res) => {
   try {
     const updatedFields = req.body;
     const updatedReview = await reviewMethods.updateReview(req.params.reviewId, updatedFields);

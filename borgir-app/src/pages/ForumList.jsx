@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useSWR from "swr";
 import axios from "axios";
-import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
+// import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
@@ -9,7 +9,7 @@ export default function ForumList() {
   const { data, error } = useSWR("http://localhost:3000/burgers", fetcher);
   console.log(data);
 
-  const { isSignedIn, user } = useUser();
+  // const { isSignedIn, user } = useUser();
   const [topics, setTopics] = useState([
     {
       id: 1,
@@ -55,37 +55,28 @@ export default function ForumList() {
         <h1 className="text-3xl font-bold text-gray-900 mb-6">🍔 Burger Forum</h1>
 
         {/* New Topic Section (Only for Signed-In Users) */}
-        {isSignedIn ? (
-          <div className="mb-6 p-4 border rounded-lg bg-gray-50">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Start a Discussion</h2>
-            <input
-              className="w-full p-2 border rounded-md text-gray-600 mb-2"
-              placeholder="Topic Title"
-              value={newTopic.title}
-              onChange={(e) => setNewTopic({ ...newTopic, title: e.target.value })}
-            />
-            <textarea
-              className="w-full p-2 border rounded-md text-gray-600"
-              rows="3"
-              placeholder="Write a description..."
-              value={newTopic.description}
-              onChange={(e) => setNewTopic({ ...newTopic, description: e.target.value })}
-            />
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2" onClick={addTopic}>
-              Post Topic
-            </button>
-            <div className="mt-4">
-              <UserButton afterSignOutUrl="/" />
-            </div>
-          </div>
-        ) : (
-          <div className="mb-6 text-center">
-            <p className="text-gray-600">Sign in to start a discussion.</p>
-            <SignInButton>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Sign In</button>
-            </SignInButton>
-          </div>
-        )}
+        <div className="mb-6 p-4 border rounded-lg bg-gray-50">
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Start a Discussion</h2>
+          <input
+            className="w-full p-2 border rounded-md text-gray-600 mb-2"
+            placeholder="Topic Title"
+            value={newTopic.title}
+            onChange={(e) => setNewTopic({ ...newTopic, title: e.target.value })}
+          />
+          <textarea
+            className="w-full p-2 border rounded-md text-gray-600"
+            rows="3"
+            placeholder="Write a description..."
+            value={newTopic.description}
+            onChange={(e) => setNewTopic({ ...newTopic, description: e.target.value })}
+          />
+          <button className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2" onClick={addTopic}>
+            Post Topic
+          </button>
+          {/* <div className="mt-4">
+            <UserButton afterSignOutUrl="/" />
+          </div> */}
+        </div>
 
         {/* Forum Topics List */}
         <div className="space-y-4">

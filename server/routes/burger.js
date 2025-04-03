@@ -1,7 +1,6 @@
 import express from "express";
 import { burgers } from "../configs/mongo/mongoCollections.js";
 import { ObjectId } from "mongodb";
-import { requireAuth } from "@clerk/express";
 
 const router = express.Router();
 
@@ -10,7 +9,7 @@ const router = express.Router();
  * @desc    Create a new burger entry
  * @access  Private (Requires authentication)
  */
-router.post("/", requireAuth(), async (req, res) => {
+router.post("/", async (req, res) => {
   // * Good
   try {
     const { name, restaurant, description, imageUrl } = req.body;
@@ -105,7 +104,7 @@ router.get("/restaurant/:restaurant", async (req, res) => {
  * @desc    Update a burger entry
  * @access  Private (Requires authentication)
  */
-router.put("/:id", requireAuth(), async (req, res) => {
+router.put("/:id", async (req, res) => {
   // * Good
   try {
     const burgerId = req.params.id;
@@ -142,7 +141,7 @@ router.put("/:id", requireAuth(), async (req, res) => {
  * @desc    Delete a burger entry
  * @access  Private (Requires authentication)
  */
-router.delete("/:id", requireAuth(), async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const burgerId = req.params.id;
     if (!ObjectId.isValid(burgerId)) return res.status(400).json({ error: "Invalid burger ID" });

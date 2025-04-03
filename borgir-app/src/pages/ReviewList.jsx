@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useSWR from "swr";
 import axios from "axios";
-import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
+// import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 
 import { getReviews, reviewURLEndpoint as cacheKey } from "../api/borgirAPI";
 import ReviewForm from "./ReviewForm";
@@ -17,7 +17,7 @@ export default function ReviewList() {
   } = useSWR(cacheKey, getReviews, { onSuccess: (data) => data.sort((a, b) => b.id - a.id) });
   // ! Change the sorting such that the newest review is on
 
-  const { isSignedIn, user } = useUser();
+  // const { isSignedIn, user } = useUser();
 
   const [newTopic, setNewTopic] = useState({ title: "", description: "" });
   const [showReplies, setShowReplies] = useState({}); // Track visibility of replies
@@ -28,7 +28,7 @@ export default function ReviewList() {
       id: topics.length + 1,
       title: newTopic.title,
       description: newTopic.description,
-      author: user?.firstName || "Anonymous",
+      author: "Anonymous",
       replies: [],
     };
     setTopics([...topics, newEntry]);
@@ -44,18 +44,18 @@ export default function ReviewList() {
         <h1 className="text-3xl font-bold text-gray-900 mb-6">🍔 Burger Review</h1>
 
         {/* New Topic Section (Only for Signed-In Users) */}
-        {isSignedIn ? (
-          <div>
-            <ReviewForm />
-          </div>
-        ) : (
+        {/* {isSignedIn ? ( */}
+        <div>
+          <ReviewForm />
+        </div>
+        {/* ) : (
           <div className="mb-6 text-center">
             <p className="text-gray-600">Sign in to start a discussion.</p>
             <SignInButton>
               <button className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">Sign In</button>
             </SignInButton>
           </div>
-        )}
+        )} */}
 
         {/* Review Topics List */}
         <div className="space-y-4">

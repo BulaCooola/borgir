@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { useAuth, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+// import { useAuth, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 
-export default function Navbar() {
-  const { signOut } = useAuth();
+export default function NavigationBar() {
+  //   const { signOut } = useAuth();
   return (
     <nav className="p-4 bg-yellow-500 flex justify-between items-center">
       <h1 className="text-xl font-bold">Borgir 🍔</h1>
@@ -19,14 +19,15 @@ export default function Navbar() {
           Reviews
         </Link>
 
-        <SignedIn>
-          <Link to="/dashboard" className="mr-4">
-            Dashboard
-          </Link>
+        <Link to="/dashboard" className="mr-4">
+          Dashboard
+        </Link>
 
-          <Link to="/post" className="mr-4">
-            Post
-          </Link>
+        <Link to="/post" className="mr-4">
+          Post
+        </Link>
+
+        {/* <SignedIn>
 
           <button onClick={() => signOut()} className="bg-red-500 px-3 py-1 rounded text-white">
             Logout
@@ -42,7 +43,7 @@ export default function Navbar() {
           >
             <button>Sign In</button>
           </SignInButton>
-        </SignedOut>
+        </SignedOut> */}
       </div>
     </nav>
   );

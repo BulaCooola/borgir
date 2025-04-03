@@ -1,14 +1,13 @@
 import { useEffect } from "react";
-import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/clerk-react";
+// import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function HomePage() {
-  const { isSignedIn, user } = useUser();
+  // const { isSignedIn, user } = useUser();
 
   useEffect(() => {
     async function getUserAndNotifications() {
-      console.log(user);
       await axios.post("http://localhost:3000/newUser", {
         id: user.id,
         email: user.primaryEmailAddress?.emailAddress,
@@ -18,16 +17,12 @@ export default function HomePage() {
         profilePicture: user.imageUrl,
       });
     }
-
-    if (isSignedIn) {
-      getUserAndNotifications();
-    }
-  }, [isSignedIn]);
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="max-w-2xl text-center bg-white p-8 rounded-2xl shadow-lg">
-        {isSignedIn ? (
+        {/* {isSignedIn ? (
           <>
             <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user.firstName}!</h1>
             <p className="text-gray-600 mt-4">Glad to see you again. Explore your dashboard.</p>
@@ -48,7 +43,8 @@ export default function HomePage() {
               </SignUpButton>
             </div>
           </>
-        )}
+        )} */}
+        <h1> Hello</h1>
       </div>
     </div>
   );
