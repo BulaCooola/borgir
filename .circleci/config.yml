@@ -17,6 +17,9 @@ jobs:
           name: Install client dependencies
           command: cd borgir-app && npm install
       - run:
+          name: Unit Test Server
+          command: npm run test
+      - run:
           name: Run server
           command: cd server && npm run start &
       - run:
