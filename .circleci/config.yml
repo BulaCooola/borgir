@@ -2,7 +2,7 @@
 # Stacks detected: deps:node:server
 version: 2.1
 # orbs:
-  node: circleci/node@5
+# node: circleci/node@5
 
 jobs:
   deploy:
