@@ -8,6 +8,8 @@ jobs:
   deploy:
     docker:
       - image: BulaCooola/borgir-app:latest
+    steps:
+      - checkout
 
 workflows:
   version: 2
