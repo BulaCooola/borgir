@@ -8,6 +8,11 @@ jobs:
   # Install dependencies and run tests sd
   build_and_test:
     executor: node/default
+    services:
+      - mongo: # Add MongoDB as a service
+          image: mongo:latest
+          ports:
+            - 27017:27017 # Expose MongoDB's default port
     steps:
       - checkout
       - run:
