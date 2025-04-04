@@ -49,10 +49,11 @@ test("Create a burger submission", async () => {
     "Test Burger Restaurant"
   );
 
-  console.log(`burgerSubmission: ${burgerSubmission}`);
   // await burgerSubmission.remove({ id: 1 }, { multi: true });
 
-  const getBurger = await burgerCollection.findOne({ _id: burgerSubmission });
+  const getBurger = await burgerCollection.findOne({ _id: burgerSubmission.insertedId });
+
+  await burgerCollection.deleteOne({ _id: burgerSubmission.insertedId });
 
   expect(getBurger.burgerName).toBe("TEST BURGER NAME");
 });
