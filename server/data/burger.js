@@ -35,7 +35,7 @@ const exportedMethods = {
     const insertInfo = await burgerCollection.insertOne(newBurger);
     if (!insertInfo.acknowledged) throw new Error("Failed to create new burger entry.");
 
-    return insertInfo.insertedId;
+    return insertInfo;
   },
 };
 
