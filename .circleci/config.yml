@@ -1,18 +1,19 @@
 # This config was automatically generated from your source code
 # Stacks detected: deps:node:server
-version: 2.1
+# version: 2.1
 # orbs:
 # node: circleci/node@5
+
+version: 2.1
 
 jobs:
   deploy:
     docker:
-      - image: bulacooola/borgir-app:latest
+      - image: arvindr226/alpine-ssh
     steps:
-      - checkout
+      - run: ssh -oStrictHostKeyChecking=no -v $USER@$DNS "./deploy.sh"
 
 workflows:
-  version: 2
   deploy-to-ec2:
     jobs:
       - deploy
