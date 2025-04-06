@@ -5,7 +5,7 @@ import usersMethods from "../data/users.js";
 const constructorMethod = (app) => {
   // Routes
   app.get("/", (req, res) => {
-    res.send("home");
+    res.status(200).json({ message: "Connected to the API" });
   });
   app.use("/reviews", reviewRoutes);
   app.use("/burgers", burgerRoutes);
