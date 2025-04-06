@@ -30,3 +30,5 @@ dist-ssr
 
 coverage
 Dockerfile
+docker-compose.yml
+*.pem
