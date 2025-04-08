@@ -20,6 +20,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -46,4 +47,6 @@ jobs:
 
       # Run backend tests
       - name: Run Backend Tests
-        run: npm test
+        run: |
+          cd server
+          npm run test
