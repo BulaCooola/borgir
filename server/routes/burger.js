@@ -24,6 +24,7 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "Burger already exists in this restaurant" });
     }
 
+    // object to insert
     const newBurger = {
       name,
       restaurant,
