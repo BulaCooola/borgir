@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18.x, 20.x, 22.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -24,20 +24,20 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: ${{ matrix.node-version }}
           cache: "npm"
 
       # Install backend dependencies
       - name: Install Backend Dependencies
         run: |
           cd server
-          npm ci
+          npm install
 
       # Install frontend dependencies
       - name: Install Frontend Dependencies
         run: |
           cd borgir-app
-          npm ci
+          npm install
 
       # Build the frontend
       - name: Build Frontend
