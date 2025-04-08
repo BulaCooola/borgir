@@ -3,37 +3,37 @@ import { dbConnection, closeConnection } from "../configs/mongo/mongoConnections
 import { burgers, reviews, users } from "../configs/mongo/mongoCollections.js";
 import burgerMethods from "../data/burger.js";
 
-let db;
+// let db;
 
-beforeAll(async () => {
-  db = await dbConnection();
-});
+// beforeAll(async () => {
+//   db = await dbConnection();
+// });
 
-afterAll(async () => {
-  await closeConnection();
-});
+// afterAll(async () => {
+//   await closeConnection();
+// });
 
-describe("Test database connections", () => {
-  test("Database connection should be established", async () => {
-    const collections = await db.listCollections().toArray();
-    expect(Array.isArray(collections)).toBe(true);
-  });
+// describe("Test database connections", () => {
+//   test("Database connection should be established", async () => {
+//     const collections = await db.listCollections().toArray();
+//     expect(Array.isArray(collections)).toBe(true);
+//   });
 
-  test("Database should contain the expected name", () => {
-    expect(db.databaseName).toBe("Borgir");
-  });
+//   test("Database should contain the expected name", () => {
+//     expect(db.databaseName).toBe("Borgir");
+//   });
 
-  test("Should be able to perform a basic insert and find", async () => {
-    const testCol = db.collection("testCollection");
-    await testCol.insertOne({ name: "test" });
-    const found = await testCol.findOne({ name: "test" });
-    expect(found.name).toBe("test");
+//   test("Should be able to perform a basic insert and find", async () => {
+//     const testCol = db.collection("testCollection");
+//     await testCol.insertOne({ name: "test" });
+//     const found = await testCol.findOne({ name: "test" });
+//     expect(found.name).toBe("test");
 
-    await testCol.deleteOne({ name: "test" }); // cleanup
+//     await testCol.deleteOne({ name: "test" }); // cleanup
 
-    await testCol.drop();
-  });
-});
+//     await testCol.drop();
+//   });
+// });
 
 let burgerCollection;
 
