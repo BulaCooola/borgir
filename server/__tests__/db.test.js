@@ -1,5 +1,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { dbConnection, closeConnection } from "../configs/mongo/mongoConnections";
+import { burgers, reviews, users } from "../configs/mongo/mongoCollections.js";
+import burgerMethods from "../data/burger.js";
 
 let db;
 
@@ -11,28 +13,27 @@ afterAll(async () => {
   await closeConnection();
 });
 
-test("Database connection should be established", async () => {
-  const collections = await db.listCollections().toArray();
-  expect(Array.isArray(collections)).toBe(true);
+describe("Test database connections", () => {
+  test("Database connection should be established", async () => {
+    const collections = await db.listCollections().toArray();
+    expect(Array.isArray(collections)).toBe(true);
+  });
+
+  test("Database should contain the expected name", () => {
+    expect(db.databaseName).toBe("Borgir");
+  });
+
+  test("Should be able to perform a basic insert and find", async () => {
+    const testCol = db.collection("testCollection");
+    await testCol.insertOne({ name: "test" });
+    const found = await testCol.findOne({ name: "test" });
+    expect(found.name).toBe("test");
+
+    await testCol.deleteOne({ name: "test" }); // cleanup
+
+    await testCol.drop();
+  });
 });
-
-test("Database should contain the expected name", () => {
-  expect(db.databaseName).toBe("Borgir");
-});
-
-test("Should be able to perform a basic insert and find", async () => {
-  const testCol = db.collection("testCollection");
-  await testCol.insertOne({ name: "test" });
-  const found = await testCol.findOne({ name: "test" });
-  expect(found.name).toBe("test");
-
-  await testCol.deleteOne({ name: "test" }); // cleanup
-
-  await testCol.drop();
-});
-
-import { burgers } from "../configs/mongo/mongoCollections.js";
-import burgerMethods from "../data/burger.js";
 
 let burgerCollection;
 
