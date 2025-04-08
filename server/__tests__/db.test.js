@@ -9,9 +9,9 @@ import burgerMethods from "../data/burger.js";
 //   db = await dbConnection();
 // });
 
-// afterAll(async () => {
-//   await closeConnection();
-// });
+afterAll(async () => {
+  await closeConnection();
+});
 
 // describe("Test database connections", () => {
 //   test("Database connection should be established", async () => {
