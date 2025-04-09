@@ -1,5 +1,6 @@
 import reviewRoutes from "./reviews.js";
 import burgerRoutes from "./burger.js";
+import authRoutes from "./auth.js";
 import usersMethods from "../data/users.js";
 
 const constructorMethod = (app) => {
@@ -7,6 +8,7 @@ const constructorMethod = (app) => {
   app.get("/", (req, res) => {
     res.status(200).json({ message: "Connected to the API" });
   });
+  app.use("/auth", authRoutes);
   app.use("/reviews", reviewRoutes);
   app.use("/burgers", burgerRoutes);
 

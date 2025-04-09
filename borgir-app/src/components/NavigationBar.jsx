@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
+import PrivateRoute from "./PrivateRoute";
 // import { useAuth, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 
 export default function NavigationBar() {
+  const token = localStorage.getItem("token");
+
   //   const { signOut } = useAuth();
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
+
   return (
     <nav className="p-4 bg-yellow-500 flex justify-between items-center">
       <h1 className="text-xl font-bold">Borgir 🍔</h1>
@@ -27,23 +35,21 @@ export default function NavigationBar() {
           Post
         </Link>
 
-        {/* <SignedIn>
-
-          <button onClick={() => signOut()} className="bg-red-500 px-3 py-1 rounded text-white">
+        {token ? (
+          <button onClick={logout} className="bg-red-500 px-3 py-1 rounded text-white ml-4">
             Logout
           </button>
+        ) : (
+          <Link to="/login" className="bg-blue-500 px-3 py-1 rounded text-white ml-4">
+            Login
+          </Link>
+        )}
 
-          <UserButton className="px-3 mx-4" />
-        </SignedIn>
-
-        <SignedOut>
-          <SignInButton
-            mode="modal"
-            className="bg-blue-500 px-3 py-1 rounded text-white cursor-pointer"
-          >
-            <button>Sign In</button>
-          </SignInButton>
-        </SignedOut> */}
+        {!token && (
+          <Link to="/sign-up" className="bg-blue-500 px-3 py-1 rounded text-white ml-4">
+            Sign Up
+          </Link>
+        )}
       </div>
     </nav>
   );

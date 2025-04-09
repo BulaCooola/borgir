@@ -4,6 +4,9 @@ import express from "express";
 // Importing Methods
 import reviewMethods from "../data/reviews.js";
 
+// Import Middleware
+import authMiddleware from "../middleware/auth.js";
+
 const router = express.Router();
 
 /**
@@ -11,7 +14,7 @@ const router = express.Router();
  * @desc    Get paginated reviews
  * @access  Public
  */
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const offset = parseInt(req.query.offset) || 0;
     const limit = parseInt(req.query.limit) || 50;

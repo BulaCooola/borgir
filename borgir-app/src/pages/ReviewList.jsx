@@ -61,7 +61,7 @@ export default function ReviewList() {
         <div className="space-y-4">
           {!isLoading &&
             topics.map((topic) => (
-              <div key={topic.id} className="border p-4 rounded-md shadow-sm bg-white">
+              <div key={topic._id} className="border p-4 rounded-md shadow-sm bg-white">
                 <h2 className="font-bold text-lg text-gray-900">{topic.comment}</h2>
                 <p className="text-gray-700">{topic.description}</p>
                 <p className="text-gray-700">{topic.createdAt}</p>
@@ -74,7 +74,7 @@ export default function ReviewList() {
                     setShowReplies((prev) => ({ ...prev, [topic.id]: !prev[topic.id] }))
                   }
                 >
-                  💬 {topic.replies.length} Comments
+                  {/* 💬 {topic.replies.length} Comments */}
                 </button>
               </div>
             ))}
