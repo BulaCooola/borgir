@@ -42,6 +42,8 @@ jobs:
 
       # Run backend tests
       - name: Run Backend Tests
+        env:
+            JWT_SECRET: ${{ secrets.JWT_SECRET }}  # Accessing the secret here
         run: |
           cd server
           npm run test
