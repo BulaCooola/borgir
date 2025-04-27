@@ -73,6 +73,7 @@ describe("Test auth functions", () => {
     const res = await request(app)
       .post("/auth/login")
       .send({ email: mockUser.email, password: mockUser.password });
+    console.log(res.statusCode);
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("token");
