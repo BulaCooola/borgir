@@ -17,11 +17,6 @@ function App() {
     return !!localStorage.getItem("token");
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  };
-
   return (
     <div>
       <NavigationBar />

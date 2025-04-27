@@ -18,9 +18,8 @@ router.get("/", authMiddleware, async (req, res) => {
   try {
     const offset = parseInt(req.query.offset) || 0;
     const limit = parseInt(req.query.limit) || 50;
-
     const reviews = await reviewMethods.getReviews(offset, limit);
-    res.json(reviews);
+    res.status(200).json(reviews);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -31,9 +30,10 @@ router.get("/", authMiddleware, async (req, res) => {
  * @desc    Create a new review
  * @access  Public
  */
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   try {
     const userId = req.auth.userId;
+    console.log("UserId", userId);
     const { burgerId, restaurantName, rating, comment, imageUrl } = req.body;
 
     if (!burgerId || !userId || !restaurantName || !rating || !comment) {
@@ -63,21 +63,7 @@ router.post("/", async (req, res) => {
 router.get("/:reviewId", async (req, res) => {
   try {
     const review = await reviewMethods.getReviewById(req.params.reviewId);
-    res.json(review);
-  } catch (error) {
-    res.status(404).json({ error: error.message });
-  }
-});
-
-/**
- * @route   GET /reviews/burger/:burgerId
- * @desc    Get reviews for a specific burger
- * @access  Public
- */
-router.get("/burger/:burgerId", async (req, res) => {
-  try {
-    const reviews = await reviewMethods.getReviewsByBurgerId(req.params.burgerId);
-    res.json(reviews);
+    res.status(200).json(review);
   } catch (error) {
     res.status(404).json({ error: error.message });
   }

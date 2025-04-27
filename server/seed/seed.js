@@ -1,8 +1,16 @@
-import { burgers, reviews, users } from "./configs/mongo/mongoCollections.js";
+import { burgers, reviews, users } from "../configs/mongo/mongoCollections.js";
 import { ObjectId } from "mongodb";
-import { dbConnection, closeConnection } from "./configs/mongo/mongoConnections.js";
-import userMethods from "./data/users.js";
-import reviewMethods from "./data/reviews.js";
+import { dbConnection, closeConnection } from "../configs/mongo/mongoConnections.js";
+import userMethods from "../data/users.js";
+import reviewMethods from "../data/reviews.js";
+
+// Data
+import {
+  McDonaldsBurgers,
+  BurgerKingBurgers,
+  wendysBurgers,
+  inNOutBurgers,
+} from "./burgersDatasets.js";
 
 const seedDatabase = async () => {
   const db = await dbConnection();
@@ -52,6 +60,51 @@ const seedDatabase = async () => {
       imageUrl: "https://example.com/bbqburger.jpg",
       createdAt: new Date(),
     });
+
+    // Import McDonald's Burgers
+    for (const key in McDonaldsBurgers) {
+      const burger = McDonaldsBurgers[key];
+      await burgerCollection.insertOne({
+        name: burger.name,
+        restaurant: "McDonald's",
+        description: burger.description,
+        imageUrl: "",
+        createdAt: new Date(),
+      });
+    }
+    // Import Burger King Burgers
+    for (const key in BurgerKingBurgers) {
+      const burger = BurgerKingBurgers[key];
+      await burgerCollection.insertOne({
+        name: burger.name,
+        restaurant: "Burger King",
+        description: burger.description,
+        imageUrl: "",
+        createdAt: new Date(),
+      });
+    }
+    // Import Wendy's Burgers
+    for (const key in wendysBurgers) {
+      const burger = wendysBurgers[key];
+      await burgerCollection.insertOne({
+        name: burger.name,
+        restaurant: "Wendy's",
+        description: burger.description,
+        imageUrl: "",
+        createdAt: new Date(),
+      });
+    }
+    // Import In-N-Out's Burgers
+    for (const key in inNOutBurgers) {
+      const burger = inNOutBurgers[key];
+      await burgerCollection.insertOne({
+        name: burger.name,
+        restaurant: "In-N-Out",
+        description: burger.description,
+        imageUrl: "",
+        createdAt: new Date(),
+      });
+    }
 
     console.log("✅ Burgers seeded.");
 

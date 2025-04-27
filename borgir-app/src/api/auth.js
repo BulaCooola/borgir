@@ -16,7 +16,8 @@ export async function loginUser(data) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-  window.location.href = "/";
+  // window.location.href = "/";
+  console.log(res.body);
 
   return res.json();
 }

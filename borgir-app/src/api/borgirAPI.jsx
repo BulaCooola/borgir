@@ -7,7 +7,12 @@ const borgirAPI = axios.create({
 export const reviewURLEndpoint = "/reviews";
 
 export const getReviews = async () => {
-  const response = await borgirAPI.get(reviewURLEndpoint);
+  let token = localStorage.getItem("token");
+  const response = await borgirAPI.get("http://localhost:3000/reviews", {
+    headers: {
+      Authorization: `Bearer ${token}`, // Pass the token
+    },
+  });
   return response.data;
 };
 

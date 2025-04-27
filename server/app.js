@@ -1,10 +1,12 @@
 import express from "express";
-import http from "http";
+// import http from "http";
 import cors from "cors";
-import path from "path";
+// import path from "path";
 import bodyParser from "body-parser";
-import { fileURLToPath } from "url";
+// import { fileURLToPath } from "url";
 import configRoutes from "./routes/index.js";
+
+import { errorHandler } from "./middleware/errorHandler.js";
 
 // Auth
 // import { clerkMiddleware, requireAuth } from "@clerk/express";
@@ -12,8 +14,8 @@ import configRoutes from "./routes/index.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -25,6 +27,10 @@ app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 
 configRoutes(app);
 
-app.listen(3000, () => {
+app.use(errorHandler); // plug it in last
+
+const server = app.listen(3000, () => {
   console.log(`Server listening at http://localhost:3000`);
 });
+
+export { app, server };

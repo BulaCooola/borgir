@@ -88,23 +88,23 @@ const exportedMethods = {
     return review;
   },
 
-  /**
-   * Gets burger review by burgerId.
-   * @param  {String} burgerId  Burger ID of a single burger
-   * @returns {Promise<Array>} - An array of review objects for the burger.
-   * @throws {Error} - If the ID is invalid or no reviews are found.
-   */
-  async getReviewsByBurgerId(burgerId) {
-    if (!ObjectId.isValid(burgerId)) throw new Error("Invalid burger ID.");
+  // /**
+  //  * Gets burger review by burgerId.
+  //  * @param  {String} burgerId  Burger ID of a single burger
+  //  * @returns {Promise<Array>} - An array of review objects for the burger.
+  //  * @throws {Error} - If the ID is invalid or no reviews are found.
+  //  */
+  // async getReviewsByBurgerId(burgerId) {
+  //   if (!ObjectId.isValid(burgerId)) throw new Error("Invalid burger ID.");
 
-    const reviewCollection = await reviews();
-    const burgerReviews = await reviewCollection
-      .find({ burgerId: new ObjectId(burgerId) })
-      .toArray();
+  //   const reviewCollection = await reviews();
+  //   const burgerReviews = await reviewCollection
+  //     .find({ burgerId: new ObjectId(burgerId) })
+  //     .toArray();
 
-    if (!burgerReviews.length) throw new Error("No reviews found for this burger.");
-    return burgerReviews;
-  },
+  //   if (!burgerReviews.length) throw new Error("No reviews found for this burger.");
+  //   return burgerReviews;
+  // },
 
   /**
    * Gets burger review by restaurant name.
@@ -178,7 +178,8 @@ const exportedMethods = {
     if (typeof limit !== "number" || limit <= 0) throw new Error("Invalid limit value.");
 
     const reviewCollection = await reviews();
-    return await reviewCollection.find().skip(offset).limit(limit).toArray();
+    const theReviews = await reviewCollection.find().skip(offset).limit(limit).toArray();
+    return theReviews;
   },
 
   /**

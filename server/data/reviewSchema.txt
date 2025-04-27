@@ -1,0 +1,18 @@
+Use this as a reference of what the schema should look like
+
+const newReviewSchema = {
+    userId: ObjectId,       // User who posted the review
+    burgerId: ObjectId,     // Associated burger
+    rating: Number,         // 1-5 rating
+    comment: String,        // Review text
+    createdAt: Date,        // Timestamp
+    upvotes: Number,        // Number of upvotes
+    downvotes: Number,      // Number of downvotes
+    comments: [             // Nested comments (array)
+        {
+            userId: ObjectId, 
+            comment: String,
+            createdAt: Date
+        }
+    ]
+};

@@ -14,7 +14,6 @@ const constructorMethod = (app) => {
 
   app.post("/newUser", async (req, res) => {
     const exists = await usersMethods.userExists(req.body.id);
-    console.log(exists);
     if (!exists) {
       await usersMethods.createUser(
         req.body.id,

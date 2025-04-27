@@ -12,7 +12,6 @@ export default function Forum() {
   //     replies: [],
   //   },
   // ]);
-
   return (
     <div className="space-y-4">
       <h1>dfadsf</h1>
