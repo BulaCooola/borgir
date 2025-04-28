@@ -30,13 +30,11 @@ const exportedMethods = {
     const userCollection = await users();
 
     const checkuser = await userCollection.findOne({ _id: new ObjectId(userId) });
-    console.log("hasdasdasdi", checkuser);
 
     if (checkuser.length == 0) {
       throw new Error("User id does not exist");
     }
 
-    console.log("hi");
     const newReview = {
       userId: new ObjectId(userId),
       username: checkuser.username,
@@ -48,11 +46,13 @@ const exportedMethods = {
       replies: [],
       createdAt: new Date(),
     };
+    // console.log("create review: ", newReview);
 
     const insertInfo = await reviewCollection.insertOne(newReview);
     if (!insertInfo.acknowledged || !insertInfo.insertedId) {
       throw new Error("Could not add review.");
     }
+    // console.log("create review: ", insertInfo);
 
     return { _id: insertInfo.insertedId, ...newReview };
   },

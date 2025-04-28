@@ -227,7 +227,7 @@ describe("Reviews API", () => {
       .set("Authorization", `Bearer ${token}`);
 
     reviewTest = response.body;
-    console.log(response.body);
+    console.log("POST /reviews: ", response.body);
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("burgerId", theBurger._id.toString());
     expect(response.body.rating).toBe(5);
