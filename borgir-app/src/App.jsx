@@ -6,10 +6,10 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp.jsx";
-import ForumList from "./pages/ForumList";
-import ReviewList from "./pages/ReviewList";
+import ReviewPage from "./pages/ReviewPage.jsx";
 import NavigationBar from "./components/NavigationBar.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import DevOpsDashboard from "./pages/DevOpsDashboard.jsx";
 import "./App.css";
 
 function App() {
@@ -22,27 +22,19 @@ function App() {
       <NavigationBar />
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/forum"
-          element={
-            <PrivateRoute>
-              <ForumList />
-            </PrivateRoute>
-          }
-        />
+        {/* <Route path="/" element={<HomePage />} /> */}
         <Route
           path="/reviews"
           element={
             <PrivateRoute>
-              <ReviewList />
+              <ReviewPage />
             </PrivateRoute>
           }
         />
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
 
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+        <Route path="/dashboard" element={<DevOpsDashboard />} />
         {/* <Route path="/forum/:id" element={<ForumPage />} /> */}
       </Routes>
     </div>

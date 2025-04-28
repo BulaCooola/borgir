@@ -18,7 +18,7 @@ export default function Login() {
 
       if (res.token) {
         localStorage.setItem("token", res.token); // Save the JWT
-        window.location.href = "/";
+        window.location.href = "/reviews";
       }
     } catch (err) {
       console.log(err);

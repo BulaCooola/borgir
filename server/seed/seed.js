@@ -41,6 +41,9 @@ const seedDatabase = async () => {
       profilePicture: null,
     });
 
+    let user1_username = await userCollection.findOne({ _id: user1.insertedId });
+    let user2_username = await userCollection.findOne({ _id: user2.insertedId });
+
     console.log("✅ Users seeded.");
 
     // 🌟 Insert burgers
@@ -114,6 +117,7 @@ const seedDatabase = async () => {
       {
         burgerId: burger1.insertedId,
         userId: user1.insertedId,
+        username: user1_username.username,
         rating: 5,
         comment: "One of the best cheeseburgers I've had!",
         createdAt: new Date(),
@@ -121,6 +125,7 @@ const seedDatabase = async () => {
       {
         burgerId: burger1.insertedId,
         userId: user2.insertedId,
+        username: user2_username.username,
         rating: 4,
         comment: "Great burger, but I wish the bun was toasted more.",
         createdAt: new Date(),
@@ -128,6 +133,7 @@ const seedDatabase = async () => {
       {
         burgerId: burger2.insertedId,
         userId: user1.insertedId,
+        username: user1_username.username,
         rating: 3,
         comment: "The bacon was great, but the patty was a bit dry.",
         createdAt: new Date(),

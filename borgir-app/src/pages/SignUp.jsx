@@ -18,7 +18,7 @@ export default function Signup() {
       const res = await signupUser({ email, password, firstName, lastName, username });
 
       localStorage.setItem("token", res.token); // Save the JWT
-      navigate("/"); // Redirect to homepage or dashboard
+      navigate("/login"); // Redirect to homepage or dashboard
     } catch (err) {
       alert("Authentication failed");
       console.error(err);

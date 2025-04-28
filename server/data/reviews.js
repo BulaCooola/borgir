@@ -13,23 +13,33 @@ const exportedMethods = {
    * @param  {String} comment   Review description of the burger
    * @return {Object}           Return object containing reviewId
    */
-  async createReview(userId, burgerId, restaurantName, rating, comment, imageUrl) {
+  async createReview(userId, burgerId, restaurantName, rating, comment, imageUrl = "") {
     if (
       !userId ||
       !burgerId ||
       !restaurantName ||
       typeof rating !== "number" ||
       rating < 1 ||
-      rating > 5 ||
+      rating > 10 ||
       !comment
     ) {
       throw new Error("Invalid input data for review.");
     }
 
     const reviewCollection = await reviews();
+    const userCollection = await users();
+
+    const checkuser = await userCollection.findOne({ _id: new ObjectId(userId) });
+    console.log("hasdasdasdi", checkuser);
+
+    if (checkuser.length == 0) {
+      throw new Error("User id does not exist");
+    }
+
     console.log("hi");
     const newReview = {
-      userId: userId,
+      userId: new ObjectId(userId),
+      username: checkuser.username,
       burgerId: new ObjectId(burgerId),
       restaurantName: restaurantName,
       rating,

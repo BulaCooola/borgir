@@ -15,25 +15,21 @@ export default function NavigationBar() {
     <nav className="p-4 bg-yellow-500 flex justify-between items-center">
       <h1 className="text-xl font-bold">Borgir 🍔</h1>
       <div>
-        <Link to="/" className="mr-4">
+        {/* <Link to="/" className="mr-4">
           Home
-        </Link>
-
-        <Link to="/forum" className="mr-4">
-          Forum
-        </Link>
+        </Link> */}
 
         <Link to="/reviews" className="mr-4">
           Reviews
         </Link>
 
-        <Link to="/dashboard" className="mr-4">
+        {/* <Link to="/dashboard" className="mr-4">
           Dashboard
-        </Link>
+        </Link> */}
 
-        <Link to="/post" className="mr-4">
+        {/* <Link to="/post" className="mr-4">
           Post
-        </Link>
+        </Link> */}
 
         {token ? (
           <button onClick={logout} className="bg-red-500 px-3 py-1 rounded text-white ml-4">

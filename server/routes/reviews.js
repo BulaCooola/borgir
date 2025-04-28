@@ -32,8 +32,9 @@ router.get("/", authMiddleware, async (req, res) => {
  */
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const userId = req.auth.userId;
-    console.log("UserId", userId);
+    const userId = req.user.id;
+    // console.log("UserId", userId);
+    console.log(req.body);
     const { burgerId, restaurantName, rating, comment, imageUrl } = req.body;
 
     if (!burgerId || !userId || !restaurantName || !rating || !comment) {
@@ -51,6 +52,7 @@ router.post("/", authMiddleware, async (req, res) => {
 
     res.status(201).json(newReview);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 });
