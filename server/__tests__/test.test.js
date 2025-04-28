@@ -182,7 +182,7 @@ describe("Burger Routes", () => {
     expect(response.body).toHaveProperty("message", "Burger deleted successfully");
 
     // Delete the rest of the burgers
-    await burgerCollection.deleteOne({ name: "Chezburger", restaurant: "WcDonald's Roblox" });
+    // await burgerCollection.deleteOne({ name: "Chezburger", restaurant: "WcDonald's Roblox" });
     await burgerCollection.deleteOne({ name: "Vegan Burger", restaurant: "Vegan World" });
     await burgerCollection.deleteOne({ name: "Bacon Burger", restaurant: "McDonalds" });
   });
@@ -209,12 +209,12 @@ describe("Reviews API", () => {
 
   test("POST /reviews should create a new review", async () => {
     const theBurger = await burgerCollection.findOne({
-      name: "Cheeseburger",
-      restaurant: "Burger King",
+      name: "Chezburger",
+      restaurant: "WcDonald's Roblox",
     });
     const reviewData = {
       burgerId: theBurger._id,
-      restaurantName: "Burger King",
+      restaurantName: "WcDonald's Roblox",
       rating: 5,
       comment: "Delicious burger!",
       imageUrl: "http://image.url",
@@ -250,7 +250,7 @@ describe("Reviews API", () => {
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("message", "Review deleted successfully.");
 
-    await burgerCollection.deleteOne({ name: "Cheeseburger", restaurant: "Burger King" });
+    await burgerCollection.deleteOne({ name: "Chezburger", restaurant: "WcDonald's Roblox" });
   });
 
   test("GET /reviews/user/:userId should retrieve all reviews by a user", async () => {
