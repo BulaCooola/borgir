@@ -43,6 +43,7 @@ afterAll(() => {
 // });
 
 let burgerCollection;
+let userCollection;
 let mockUserId;
 let token_mock;
 
@@ -79,6 +80,10 @@ describe("Test auth functions", () => {
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("token");
     token_mock = res.body.token;
+
+    userCollection = await users();
+    let get_mock_user = await userCollection.findOne({ username: "borgirboy" });
+    mockUserId = get_mock_user._id;
   });
 
   test("Login with wrong password should fail", async () => {
@@ -190,13 +195,16 @@ describe("Burger Routes", () => {
 
 jest.mock("../middleware/auth.js", () => (req, res, next) => {
   console.log("Reached Mock Middleware");
-  req.user = { id: "680ed3f17392b102b6d9ecf6" }; // Optional if needed later
+  // const token = req.headers.authorization?.split(" ")[1];
+  // const decoded = jwt.verify(token, JWT_SECRET);
+  // req.user = decoded;
+  req.user = { id: mockUserId }; // Optional if needed later
   next();
 });
 
 describe("Reviews API", () => {
   let reviewTest;
-  const fakeUser = { id: "680ed3f17392b102b6d9ecf6" }; // set any id you want
+  const fakeUser = { id: mockUserId }; // set any id you want
   const token = jwt.sign(fakeUser, process.env.JWT_SECRET, { expiresIn: "1h" });
 
   test("GET /reviews should return paginated reviews", async () => {
@@ -224,7 +232,7 @@ describe("Reviews API", () => {
       .post("/reviews")
       .send(reviewData)
       .expect("Content-Type", /json/)
-      .set("Authorization", `Bearer ${token}`);
+      .set("Authorization", `Bearer ${token_mock}`);
 
     reviewTest = response.body;
     console.log("POST /reviews: ", response.body);

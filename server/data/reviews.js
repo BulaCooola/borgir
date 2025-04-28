@@ -31,7 +31,7 @@ const exportedMethods = {
 
     const checkuser = await userCollection.findOne({ _id: new ObjectId(userId) });
 
-    if (checkuser.length == 0) {
+    if (checkuser.length == 0 || checkuser == null) {
       throw new Error("User id does not exist");
     }
 
