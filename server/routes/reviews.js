@@ -15,6 +15,7 @@ const router = express.Router();
  * @access  Public
  */
 router.get("/", authMiddleware, async (req, res) => {
+  // Set up the get reviews such that it is paginated and limited
   try {
     const offset = parseInt(req.query.offset) || 0;
     const limit = parseInt(req.query.limit) || 50;
@@ -32,15 +33,20 @@ router.get("/", authMiddleware, async (req, res) => {
  */
 router.post("/", authMiddleware, async (req, res) => {
   try {
+    // Get userId from the authMiddleware
     const userId = req.user.id;
-    console.log("UserId", userId);
-    console.log(req.body);
+    // console.log("UserId", userId);
+    // console.log(req.body);
+
+    // Get necessary parameters to make review
     const { burgerId, restaurantName, rating, comment, imageUrl } = req.body;
 
+    // Throw error if parameters don't exist
     if (!burgerId || !userId || !restaurantName || !rating || !comment) {
       return res.status(400).json({ error: "Missing required fields." });
     }
 
+    // Call database function to create the review
     const newReview = await reviewMethods.createReview(
       userId,
       burgerId,
@@ -50,6 +56,7 @@ router.post("/", authMiddleware, async (req, res) => {
       imageUrl
     );
 
+    // Send new review
     res.status(201).json(newReview);
   } catch (error) {
     console.error(error);
@@ -64,6 +71,7 @@ router.post("/", authMiddleware, async (req, res) => {
  */
 router.get("/:reviewId", async (req, res) => {
   try {
+    // Retrieve the review and send it
     const review = await reviewMethods.getReviewById(req.params.reviewId);
     res.status(200).json(review);
   } catch (error) {
@@ -78,6 +86,7 @@ router.get("/:reviewId", async (req, res) => {
  */
 router.get("/restaurant/:restaurantName", async (req, res) => {
   try {
+    // Get each review by restaurant
     const reviews = await reviewMethods.getReviewsByRestaurant(req.params.restaurantName);
     res.json(reviews);
   } catch (error) {
@@ -92,6 +101,7 @@ router.get("/restaurant/:restaurantName", async (req, res) => {
  */
 router.get("/user/:userId", async (req, res) => {
   try {
+    // Get each review by userId
     const reviews = await reviewMethods.getReviewsByUserId(req.params.userId);
     res.json(reviews);
   } catch (error) {
@@ -106,6 +116,7 @@ router.get("/user/:userId", async (req, res) => {
  */
 router.delete("/:reviewId", async (req, res) => {
   try {
+    // Call function to delete the wanted review
     const result = await reviewMethods.deleteReview(req.params.reviewId);
     res.json(result);
   } catch (error) {
@@ -120,6 +131,7 @@ router.delete("/:reviewId", async (req, res) => {
  */
 router.put("/:reviewId", async (req, res) => {
   try {
+    // Retrieve new fields and update the review
     const updatedFields = req.body;
     const updatedReview = await reviewMethods.updateReview(req.params.reviewId, updatedFields);
     res.json(updatedReview);

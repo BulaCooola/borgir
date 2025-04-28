@@ -26,15 +26,17 @@ const exportedMethods = {
       throw new Error("Invalid input data for review.");
     }
 
+    // Get the needed collections
     const reviewCollection = await reviews();
     const userCollection = await users();
 
+    // Check if the provided userId exists
     const checkuser = await userCollection.findOne({ _id: new ObjectId(userId) });
-
     if (checkuser.length == 0 || checkuser == null) {
       throw new Error("User id does not exist");
     }
 
+    // Set the new object with the given parameters
     const newReview = {
       userId: new ObjectId(userId),
       username: checkuser.username,
@@ -48,6 +50,7 @@ const exportedMethods = {
     };
     // console.log("create review: ", newReview);
 
+    // insert the data into the database and validatee
     const insertInfo = await reviewCollection.insertOne(newReview);
     if (!insertInfo.acknowledged || !insertInfo.insertedId) {
       throw new Error("Could not add review.");
@@ -65,12 +68,13 @@ const exportedMethods = {
    * @throws {Error} - If the reviewId is invalid or the update fails.
    */
   async updateReview(reviewId, updatedFields) {
-    //   Might need to change the updatedfields and check if the fields exist.
+    // Check if the review Id is valid and the updated fields
     if (!ObjectId.isValid(reviewId)) throw new Error("Invalid review ID.");
     if (typeof updatedFields !== "object" || Object.keys(updatedFields).length === 0) {
       throw new Error("Invalid or empty update fields.");
     }
 
+    // Fetch the collection and update the review
     const reviewCollection = await reviews();
     const updateResult = await reviewCollection.findOneAndUpdate(
       { _id: new ObjectId(reviewId) },
@@ -78,6 +82,7 @@ const exportedMethods = {
       { returnDocument: "after" }
     );
 
+    // Validate if the update is successful
     if (!updateResult) throw new Error("Review update failed or review not found.");
     return updateResult;
   },
@@ -89,11 +94,14 @@ const exportedMethods = {
    * @throws {Error} - If the ID is invalid or the review is not found.
    */
   async getReviewById(reviewId) {
+    // Check if the reviewId is valid
     if (!ObjectId.isValid(reviewId)) throw new Error("Invalid review ID.");
 
+    // Fetch the reviews
     const reviewCollection = await reviews();
     const review = await reviewCollection.findOne({ _id: new ObjectId(reviewId) });
 
+    // Review validation
     if (!review) throw new Error("Review not found.");
     return review;
   },
@@ -123,15 +131,18 @@ const exportedMethods = {
    * @throws {Error} - If no reviews are found for the restaurant.
    */
   async getReviewsByRestaurant(restaurantName) {
+    // Validate the restaurant name (type and length)
     if (typeof restaurantName !== "string" || restaurantName.trim().length === 0) {
       throw new Error("Invalid restaurant name.");
     }
 
+    // Fetch the review and find the reviews by restaurant
     const reviewCollection = await reviews();
     const restaurantReviews = await reviewCollection
       .find({ restaurantName: restaurantName.trim() })
       .toArray();
 
+    // Validate if it found any
     if (!restaurantReviews.length) throw new Error("No reviews found for this restaurant.");
     return restaurantReviews;
   },
@@ -143,6 +154,7 @@ const exportedMethods = {
    * @return {String}           Properly formatted initials.
    */
   async getReviewsForBurger(burgerName, restaurantName) {
+    // Fetch needed collections
     const burgerCollection = await burgers();
     const reviewCollection = await reviews();
 
@@ -152,6 +164,7 @@ const exportedMethods = {
       restaurantName: restaurantName.toLowerCase(),
     });
 
+    // Validate if the burger exists
     if (!burger) throw new Error("Burger not found.");
 
     // Fetch all reviews with the same burgerId
@@ -165,11 +178,14 @@ const exportedMethods = {
    * @throws {Error} - If the userId is invalid or no reviews are found.
    */
   async getReviewsByUserId(userId) {
+    // Validate the userId if it exists
     if (!ObjectId.isValid(userId)) throw new Error("Invalid user ID.");
 
+    // Fetch collections
     const reviewCollection = await reviews();
     const userReviews = await reviewCollection.find({ userId: new ObjectId(userId) }).toArray();
 
+    // validate if user has any reviews
     if (!userReviews.length) throw new Error("No reviews found for this user.");
     return userReviews;
   },
@@ -187,6 +203,7 @@ const exportedMethods = {
     if (typeof offset !== "number" || offset < 0) throw new Error("Invalid offset value.");
     if (typeof limit !== "number" || limit <= 0) throw new Error("Invalid limit value.");
 
+    // Fetch and get all the reviews
     const reviewCollection = await reviews();
     const theReviews = await reviewCollection.find().skip(offset).limit(limit).toArray();
     return theReviews;
