@@ -6,6 +6,7 @@ import axios from "axios";
 import { getReviews, reviewURLEndpoint as cacheKey } from "../api/borgirAPI";
 import ReviewForm from "./ReviewForm";
 
+import UserModal from "./UserModal";
 // const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 const borgirAPI = axios.create({
@@ -94,7 +95,10 @@ export default function ReviewList() {
                   </p>
 
                   <p className="text-gray-700 mt-2">{new Date(topic.createdAt).toLocaleString()}</p>
-                  <p className="text-sm text-gray-500">Posted by {topic.username}</p>
+                  {/* <p className="text-sm text-gray-500" id={topic.userId}>
+                    Posted by {topic.username}
+                  </p> */}
+                  <UserModal userId={topic.userId} username={topic.username} />
 
                   {/* Button to Toggle Replies */}
                   <button
