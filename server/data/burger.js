@@ -101,6 +101,29 @@ const exportedMethods = {
 
     return existingBurger; // Return existing burgerId
   },
+
+  /**
+   * Gets burger review by restaurant name.
+   * @param  {String} restaurantName  Burger ID of a single burger
+   * @returns {Promise<Array>} - An array of review objects.
+   * @throws {Error} - If no reviews are found for the restaurant.
+   */
+  async getBurgersByRestaurant(restaurantName) {
+    // Validate the restaurant name (type and length)
+    if (typeof restaurantName !== "string" || restaurantName.trim().length === 0) {
+      throw new Error("Invalid restaurant name.");
+    }
+
+    // Fetch the review and find the reviews by restaurant
+    const burgerCollection = await burgers();
+    const restaurantReviews = await burgerCollection
+      .find({ restaurant: restaurantName.trim() })
+      .toArray();
+
+    // Validate if it found any
+    if (!restaurantReviews.length) throw new Error("No reviews found for this restaurant.");
+    return restaurantReviews;
+  },
 };
 
 export default exportedMethods;

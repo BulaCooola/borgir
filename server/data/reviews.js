@@ -148,6 +148,24 @@ const exportedMethods = {
   },
 
   /**
+   * Gets a list of all unique restaurant names.
+   * @returns {Promise<Array>} - An array of restaurant names.
+   * @throws {Error} - If no restaurants are found.
+   */
+  async getAllRestaurantNames() {
+    const reviewCollection = await reviews();
+
+    // Use MongoDB `distinct` to get unique restaurant names
+    const restaurantNames = await reviewCollection.distinct("restaurantName");
+
+    if (!restaurantNames.length) {
+      throw new Error("No restaurants found.");
+    }
+
+    return restaurantNames;
+  },
+
+  /**
    * Gets reviews containing the burger and restaurant name
    * @param  {String} burgerName        Burger Name
    * @param  {String} restaurantName    Restaurant Name of the burger

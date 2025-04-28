@@ -2,6 +2,7 @@ import reviewRoutes from "./reviews.js";
 import burgerRoutes from "./burger.js";
 import authRoutes from "./auth.js";
 import usersMethods from "../data/users.js";
+import reviewMethods from "../data/reviews.js";
 
 const constructorMethod = (app) => {
   // Routes
@@ -11,6 +12,21 @@ const constructorMethod = (app) => {
   app.use("/auth", authRoutes);
   app.use("/reviews", reviewRoutes);
   app.use("/burgers", burgerRoutes);
+
+  /**
+   * @route   GET /reviews/restaurant/
+   * @desc    Get lists of restaurants
+   * @access  Public
+   */
+  app.get("/restaurant", async (req, res) => {
+    try {
+      // Get each review by restaurant
+      const restaurants = await reviewMethods.getAllRestaurantNames();
+      res.json(restaurants);
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    }
+  });
 
   app.post("/newUser", async (req, res) => {
     const exists = await usersMethods.userExists(req.body.id);
