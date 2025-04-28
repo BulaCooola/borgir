@@ -33,7 +33,7 @@ router.get("/", authMiddleware, async (req, res) => {
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const userId = req.user.id;
-    // console.log("UserId", userId);
+    console.log("UserId", userId);
     console.log(req.body);
     const { burgerId, restaurantName, rating, comment, imageUrl } = req.body;
 

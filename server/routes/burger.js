@@ -13,6 +13,7 @@ router.post("/", async (req, res) => {
   // * Good
   try {
     const { name, restaurant, description, imageUrl } = req.body;
+    console.log(req.body);
     if (!name || !restaurant) {
       return res.status(400).json({ error: "Burger name and restaurant are required" });
     }

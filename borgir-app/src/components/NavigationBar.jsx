@@ -30,6 +30,9 @@ export default function NavigationBar() {
         {/* <Link to="/post" className="mr-4">
           Post
         </Link> */}
+        {/* {token && (
+          <h1>Hello </h1>
+        )} */}
 
         {token ? (
           <button onClick={logout} className="bg-red-500 px-3 py-1 rounded text-white ml-4">

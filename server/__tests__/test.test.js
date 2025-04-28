@@ -44,6 +44,7 @@ afterAll(() => {
 
 let burgerCollection;
 let mockUserId;
+let token_mock;
 
 describe("Test auth functions", () => {
   const mockUser = {
@@ -77,6 +78,7 @@ describe("Test auth functions", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("token");
+    token_mock = res.body.token;
   });
 
   test("Login with wrong password should fail", async () => {
@@ -87,13 +89,6 @@ describe("Test auth functions", () => {
     expect(res.statusCode).toBe(401);
     expect(res.body).toHaveProperty("error");
   });
-
-  it("Delete the mock user", async () => {
-    const usersCollection = await users();
-    const response = await usersCollection.deleteOne({ email: "borgir_example@outlook.com" });
-
-    expect(response.deletedCount).toBe(1); // Ensure the user is deleted
-  });
 });
 
 describe("Burger Routes", () => {
@@ -101,8 +96,8 @@ describe("Burger Routes", () => {
   test("should create a new burger", async () => {
     burgerCollection = await burgers();
     const newBurger = {
-      name: "Cheeseburger",
-      restaurant: "Burger King",
+      name: "Chezburger",
+      restaurant: "WcDonald's Roblox",
       description: "A tasty cheeseburger",
       imageUrl: "http://image.url",
     };
@@ -187,25 +182,27 @@ describe("Burger Routes", () => {
     expect(response.body).toHaveProperty("message", "Burger deleted successfully");
 
     // Delete the rest of the burgers
-    // await burgerCollection.deleteOne({ name: "Cheeseburger", restaurant: "Burger King" });
+    await burgerCollection.deleteOne({ name: "Chezburger", restaurant: "WcDonald's Roblox" });
     await burgerCollection.deleteOne({ name: "Vegan Burger", restaurant: "Vegan World" });
     await burgerCollection.deleteOne({ name: "Bacon Burger", restaurant: "McDonalds" });
   });
 });
 
-const token = jwt.sign({ userId: "testUserId" }, process.env.JWT_SECRET || "your-secret");
-
 jest.mock("../middleware/auth.js", () => (req, res, next) => {
-  req.auth = { userId: "testUserId" }; // Optional if needed later
+  console.log("Reached Mock Middleware");
+  req.user = { id: "680ed3f17392b102b6d9ecf6" }; // Optional if needed later
   next();
 });
 
 describe("Reviews API", () => {
   let reviewTest;
+  const fakeUser = { id: "680ed3f17392b102b6d9ecf6" }; // set any id you want
+  const token = jwt.sign(fakeUser, process.env.JWT_SECRET, { expiresIn: "1h" });
+
   test("GET /reviews should return paginated reviews", async () => {
     const response = await request(app)
       .get("/reviews?offset=0&limit=10")
-      .set("Authorization", `Bearer ${token}`);
+      .set("Authorization", `Bearer ${token_mock}`);
     expect(response.status).toBe(200);
     expect(response.body).toBeInstanceOf(Array);
   });
@@ -240,7 +237,7 @@ describe("Reviews API", () => {
     const reviewId = reviewTest._id.toString();
     const response = await request(app)
       .get(`/reviews/${reviewId}`)
-      .set("Authorization", `Bearer ${token}`);
+      .set("Authorization", `Bearer ${token_mock}`);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("_id", reviewId);
   });
@@ -249,7 +246,7 @@ describe("Reviews API", () => {
     const reviewId = reviewTest._id.toString();
     const response = await request(app)
       .delete(`/reviews/${reviewId}`)
-      .set("Authorization", `Bearer ${token}`);
+      .set("Authorization", `Bearer ${token_mock}`);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("message", "Review deleted successfully.");
 
@@ -259,4 +256,11 @@ describe("Reviews API", () => {
   test("GET /reviews/user/:userId should retrieve all reviews by a user", async () => {
     //
   });
+});
+
+it("Delete the mock user", async () => {
+  const usersCollection = await users();
+  const response = await usersCollection.deleteOne({ email: "borgir_example@outlook.com" });
+
+  expect(response.deletedCount).toBe(1); // Ensure the user is deleted
 });
