@@ -27,12 +27,18 @@ const userMethods = {
 
     const usersDB = await users();
 
-    const existingUser = await usersDB.findOne({ email });
+    const existingUser_email = await usersDB.findOne({ email });
+    const existingUser_username = await usersDB.findOne({ username });
 
-    console.log("Existing User?", existingUser);
+    console.log("Existing User by email?", existingUser_email);
+    console.log("Existing User by username?", existingUser_username);
 
-    if (existingUser) {
+    if (existingUser_email) {
       const err = new Error("Email already in use");
+      err.status = 409;
+      throw err;
+    } else if (existingUser_username) {
+      const err = new Error("Username already in use");
       err.status = 409;
       throw err;
     } else {
@@ -60,7 +66,7 @@ const userMethods = {
     const usersDB = await users();
     const user = await usersDB.findOne({ email: email }); // MongoDB native driver
     if (!user) {
-      const err = new Error("User does not exist.");
+      const err = new Error("Incorrect email or password.");
       err.status = 401;
       throw err;
     }
