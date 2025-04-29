@@ -173,7 +173,7 @@ const seedDatabase = async () => {
       {
         userId: user1.insertedId,
         username: user1_username.username,
-        burgerId: mcdonaldsBurgerIds[0]._id,
+        burgerId: mcdonaldsBurgerIds[0],
         restaurantName: "McDonald's",
         rating: 7,
         comment: "Classic taste, very satisfying!",
@@ -184,7 +184,7 @@ const seedDatabase = async () => {
       {
         userId: user1.insertedId,
         username: user1_username.username,
-        burgerId: mcdonaldsBurgerIds[1]._id,
+        burgerId: mcdonaldsBurgerIds[1],
         restaurantName: "McDonald's",
         rating: 6,
         comment: "Good but a little dry today.",
@@ -195,7 +195,7 @@ const seedDatabase = async () => {
       {
         userId: user2.insertedId,
         username: user2_username.username,
-        burgerId: mcdonaldsBurgerIds[2]._id,
+        burgerId: mcdonaldsBurgerIds[2],
         restaurantName: "McDonald's",
         rating: 9,
         comment: "Perfectly cooked, juicy and flavorful!",
@@ -206,7 +206,7 @@ const seedDatabase = async () => {
       {
         userId: user2.insertedId,
         username: user2_username.username,
-        burgerId: mcdonaldsBurgerIds[3]._id,
+        burgerId: mcdonaldsBurgerIds[3],
         restaurantName: "McDonald's",
         rating: 8,
         comment: "Great burger, fast service!",
@@ -217,7 +217,7 @@ const seedDatabase = async () => {
       {
         userId: user3.insertedId,
         username: user3_username.username,
-        burgerId: mcdonaldsBurgerIds[4]._id,
+        burgerId: mcdonaldsBurgerIds[4],
         restaurantName: "McDonald's",
         rating: 2,
         comment: "Not impressed, felt rushed.",
@@ -230,7 +230,7 @@ const seedDatabase = async () => {
       {
         userId: user1.insertedId,
         username: user1_username.username,
-        burgerId: burgerKingBurgerIds[0]._id,
+        burgerId: burgerKingBurgerIds[0],
         restaurantName: "Burger King",
         rating: 10,
         comment: "Whopper is king for a reason!",
@@ -241,7 +241,7 @@ const seedDatabase = async () => {
       {
         userId: user2.insertedId,
         username: user2_username.username,
-        burgerId: burgerKingBurgerIds[1]._id,
+        burgerId: burgerKingBurgerIds[1],
         restaurantName: "Burger King",
         rating: 4,
         comment: "Decent burger, not amazing.",
@@ -252,7 +252,7 @@ const seedDatabase = async () => {
       {
         userId: user3.insertedId,
         username: user3_username.username,
-        burgerId: burgerKingBurgerIds[2]._id,
+        burgerId: burgerKingBurgerIds[2],
         restaurantName: "Burger King",
         rating: 6,
         comment: "Solid value for the price!",
@@ -263,7 +263,7 @@ const seedDatabase = async () => {
       {
         userId: user1.insertedId,
         username: user1_username.username,
-        burgerId: burgerKingBurgerIds[3]._id,
+        burgerId: burgerKingBurgerIds[3],
         restaurantName: "Burger King",
         rating: 1,
         comment: "Burger was cold when I got it.",
@@ -274,7 +274,7 @@ const seedDatabase = async () => {
       {
         userId: user2.insertedId,
         username: user2_username.username,
-        burgerId: burgerKingBurgerIds[4]._id,
+        burgerId: burgerKingBurgerIds[4],
         restaurantName: "Burger King",
         rating: 7,
         comment: "Loved every bite, fantastic service!",
@@ -287,7 +287,7 @@ const seedDatabase = async () => {
       {
         userId: user3.insertedId,
         username: user3_username.username,
-        burgerId: wendysBurgerIds[0]._id,
+        burgerId: wendysBurgerIds[0],
         restaurantName: "Wendy's",
         rating: 8,
         comment: "Fresh and juicy burger, highly recommend!",
@@ -298,7 +298,7 @@ const seedDatabase = async () => {
       {
         userId: user1.insertedId,
         username: user1_username.username,
-        burgerId: wendysBurgerIds[1]._id,
+        burgerId: wendysBurgerIds[1],
         restaurantName: "Wendy's",
         rating: 5,
         comment: "Pretty good, but the bun was soggy.",
@@ -309,7 +309,7 @@ const seedDatabase = async () => {
       {
         userId: user2.insertedId,
         username: user2_username.username,
-        burgerId: wendysBurgerIds[2]._id,
+        burgerId: wendysBurgerIds[2],
         restaurantName: "Wendy's",
         rating: 5,
         comment: "Average burger, nothing special.",
@@ -320,7 +320,7 @@ const seedDatabase = async () => {
       {
         userId: user3.insertedId,
         username: user3_username.username,
-        burgerId: wendysBurgerIds[3]._id,
+        burgerId: wendysBurgerIds[3],
         restaurantName: "Wendy's",
         rating: 8,
         comment: "Amazing quality, very impressed!",
@@ -331,7 +331,7 @@ const seedDatabase = async () => {
       {
         userId: user1.insertedId,
         username: user1_username.username,
-        burgerId: wendysBurgerIds[4]._id,
+        burgerId: wendysBurgerIds[4],
         restaurantName: "Wendy's",
         rating: 9,
         comment: "Tasty burger, friendly staff!",

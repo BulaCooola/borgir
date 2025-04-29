@@ -12,9 +12,13 @@ export default function UserModal({ userId, username }) {
 
   const openModal = () => {
     setIsOpen(true);
+    document.body.style.overflow = "hidden"; // 🚫 disable scroll
     fetchUserData();
   };
-  const closeModal = () => setIsOpen(false);
+  const closeModal = () => {
+    setIsOpen(false);
+    document.body.style.overflow = "auto"; // ✅ enable scroll again
+  };
 
   const fetchUserData = async () => {
     try {
@@ -34,61 +38,60 @@ export default function UserModal({ userId, username }) {
   return (
     <>
       {/* Clickable Username */}
+      <p className="text-sm text-gray-500">Posted by</p>
       <p
-        className="text-sm text-gray-500 cursor-pointer hover:underline inline-block"
-        onClick={openModal}
+        className="text-sm font-bold text-blue-500 cursor-pointer hover:underline inline-block"
+        onClick={() => {
+          fetchUserData();
+          document.getElementById("my_modal_3").showModal();
+        }}
       >
-        Posted by {username}
+        @{username}
       </p>
 
-      {/* Modal */}
-      {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-auto relative">
-            {/* Close Button */}
-            <button
-              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
-              onClick={closeModal}
-            >
-              ✖
-            </button>
+      <dialog id="my_modal_3" className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
+          {loading ? (
+            <p className="text-gray-600">Loading...</p>
+          ) : userReviews ? (
+            <>
+              <h2 className="text-xl font-bold text-white mb-2">@{username}</h2>
 
-            {loading ? (
-              <p className="text-gray-600">Loading...</p>
-            ) : userReviews ? (
-              <>
-                <h2 className="text-xl font-bold text-black mb-2">@{username}</h2>
+              <h3 className="font-semibold text-white mb-2">Reviews:</h3>
 
-                <h3 className="font-semibold text-black mb-2">Reviews:</h3>
-
-                <ul className="list-none list-inside space-y-1">
-                  {userReviews && userReviews.length > 0 ? (
-                    userReviews.map((review, idx) => (
-                      <div className="card card-border bg-base-300 w-96">
-                        <div className="card-body">
-                          <li key={idx} className="text-gray-600">
-                            <h2 className="card-title text-white">
-                              🍔 {review.restaurantName}: ⭐{review.rating}/10
-                            </h2>
-                            <p className="text-xs text-white">
-                              {new Date(review.createdAt).toLocaleString()}
-                            </p>
-                            <p className="text-md text-white">"{review.comment}"</p>
-                          </li>
-                        </div>
+              <ul className="list-none list-inside space-y-1">
+                {userReviews && userReviews.length > 0 ? (
+                  userReviews.map((review, idx) => (
+                    <div className="card card-border bg-base-300 w-96">
+                      <div className="card-body">
+                        <li key={idx} className="text-gray-600">
+                          <h2 className="card-title text-white">
+                            🍔 {review.restaurantName}: ⭐{review.rating}/10
+                          </h2>
+                          <p className="text-xs text-white">
+                            {new Date(review.createdAt).toLocaleString()}
+                          </p>
+                          <p className="text-md text-white">"{review.comment}"</p>
+                        </li>
                       </div>
-                    ))
-                  ) : (
-                    <li className="text-gray-500 italic">No reviews available.</li>
-                  )}
-                </ul>
-              </>
-            ) : (
-              <p className="text-gray-600">User not found.</p>
-            )}
-          </div>
+                    </div>
+                  ))
+                ) : (
+                  <li className="text-gray-500 italic">No reviews available.</li>
+                )}
+              </ul>
+            </>
+          ) : (
+            <p className="text-gray-600">User not found.</p>
+          )}
         </div>
-      )}
+      </dialog>
     </>
   );
 }

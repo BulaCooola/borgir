@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import useSWR from "swr";
 
 const borgirAPI = axios.create({
   baseURL: "http://localhost:3000",
@@ -10,10 +11,20 @@ const RestaurantReviewsPage = () => {
   const [allRestaurants, setAllRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState("");
+  const [averageRating, setAverageRating] = useState(null);
 
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const {
+    data: burgers,
+    error: burgersError,
+    isLoading: burgersLoading,
+  } = useSWR("/burgers", async (url) => {
+    const res = await borgirAPI.get("/burgers");
+    return res.data; // assuming it returns an array of burgers [{id, name, restaurant}]
+  });
 
   // Fetches all the restaurant names
   useEffect(() => {
@@ -49,6 +60,11 @@ const RestaurantReviewsPage = () => {
     setFilteredRestaurants([]);
   };
 
+  const findBurgerById = (id) => {
+    if (!burgers) return null;
+    return burgers.find((burger) => burger._id === id);
+  };
+
   const handleSearch = async () => {
     if (!selectedRestaurant.trim()) {
       setError("Please select a restaurant.");
@@ -58,8 +74,17 @@ const RestaurantReviewsPage = () => {
     setError("");
     try {
       const response = await borgirAPI.get(`/reviews/restaurant/${selectedRestaurant.trim()}`);
-      console.log(response.data);
       setReviews(response.data);
+      const reviewData = response.data;
+
+      // Calculate average rating
+      if (reviewData.length > 0) {
+        const total = reviewData.reduce((sum, r) => sum + r.rating, 0);
+        const avg = total / reviewData.length;
+        setAverageRating(avg.toFixed(1)); // round to 1 decimal
+      } else {
+        setAverageRating(null);
+      }
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.error || "Error fetching reviews.");
@@ -112,17 +137,38 @@ const RestaurantReviewsPage = () => {
 
       <div className="mt-4">
         {reviews.length > 0 && !loading ? (
-          <div>
+          <div className="py-4">
             <h2 className="text-2xl p-4">{reviews.length} reviews</h2>
-            {reviews.map((review, index) => (
-              <ul className="space-y-4">
-                <li key={index} className="border p-4 rounded shadow">
-                  <h2 className="text-lg font-semibold">{review.reviewer || "Anonymous"}</h2>
-                  <p>Rating: {review.rating}/5</p>
-                  <p className="mt-2">{review.comment}</p>
-                </li>
-              </ul>
-            ))}
+            {averageRating && (
+              <p className="text-lg font-semibold mt-2">Average Rating: ⭐ {averageRating}/10</p>
+            )}
+            <div>
+              {reviews.map((review, index) => {
+                const burger = findBurgerById(review.burgerId);
+
+                return (
+                  <ul className="space-y-4">
+                    <li key={index} className="border p-4 my-4 rounded shadow">
+                      <div className="flex items-center mt-1">
+                        <span className="text-yellow-400 text-lg">⭐</span>
+                        <span className="ml-1 font-medium">{review.rating} / 10</span>
+                        <span>
+                          {" "}
+                          <h1 className="ml-5 px-7 text-2xl text-white-700">
+                            🍔{" "}
+                            {burger ? `${burger.name} from ${burger.restaurant}` : "Unknown Burger"}
+                          </h1>
+                        </span>
+                      </div>
+                      <h2 className="text-lg text-blue-400 font-semibold">
+                        {"@" + review.username || "Anonymous"}
+                      </h2>
+                      <p className="mt-2">{review.comment}</p>
+                    </li>
+                  </ul>
+                );
+              })}
+            </div>
           </div>
         ) : (
           !loading && !error && <p>No reviews found.</p>

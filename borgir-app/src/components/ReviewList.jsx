@@ -85,14 +85,17 @@ export default function ReviewList() {
                     <div className="flex items-center mt-1">
                       <span className="text-yellow-400 text-lg">⭐</span>
                       <span className="ml-1 text-gray-700 font-medium">{topic.rating} / 10</span>
+                      <span>
+                        {" "}
+                        <h1 className="px-7 text-2xl text-gray-700">
+                          🍔{" "}
+                          {burger ? `${burger.name} from ${burger.restaurant}` : "Unknown Burger"}
+                        </h1>
+                      </span>
                     </div>
                   )}
-                  <h2 className="font-bold text-lg text-gray-900">{topic.comment}</h2>
 
-                  {/* Instead of showing burgerId directly, show burger name if found */}
-                  <p className="text-gray-700">
-                    🍔 {burger ? `${burger.name} from ${burger.restaurant}` : "Unknown Burger"}
-                  </p>
+                  <h2 className="font-bold text-lg text-gray-900">{topic.comment}</h2>
 
                   <p className="text-gray-700 mt-2">{new Date(topic.createdAt).toLocaleString()}</p>
                   {/* <p className="text-sm text-gray-500" id={topic.userId}>
