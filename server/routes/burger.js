@@ -15,12 +15,6 @@ router.post("/", async (req, res) => {
     // Get the variables from req.body
     const { name, restaurant, description, imageUrl } = req.body;
 
-    // Trim data
-    name = name.trim();
-    restaurant = restaurant.trim();
-    description = description.trim();
-    imageUrl = description.trim();
-
     // Validate if the name and restaurant are given
     if (!name.trim() || !restaurant.trim()) {
       return res.status(400).json({ error: "Burger name and restaurant are required" });

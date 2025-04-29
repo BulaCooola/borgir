@@ -108,6 +108,7 @@ describe("Burger Routes", () => {
     };
 
     const response = await request(app).post("/burgers").send(newBurger);
+    console.log(response.body);
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("name", newBurger.name);
     expect(response.body).toHaveProperty("restaurant", newBurger.restaurant);
