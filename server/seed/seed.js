@@ -41,8 +41,17 @@ const seedDatabase = async () => {
       profilePicture: null,
     });
 
+    const user3 = await userCollection.insertOne({
+      username: "mcyds",
+      email: "mcdondon@example.com",
+      firstName: "Ronald",
+      lastName: "McDonald",
+      profilePicture: null,
+    });
+
     let user1_username = await userCollection.findOne({ _id: user1.insertedId });
     let user2_username = await userCollection.findOne({ _id: user2.insertedId });
+    let user3_username = await userCollection.findOne({ _id: user3.insertedId });
 
     console.log("✅ Users seeded.");
 
@@ -64,49 +73,59 @@ const seedDatabase = async () => {
       createdAt: new Date(),
     });
 
+    // new arrays to store ObjectIds
+    const mcdonaldsBurgerIds = [];
+    const burgerKingBurgerIds = [];
+    const wendysBurgerIds = [];
+    const inNOutBurgersIds = [];
+
     // Import McDonald's Burgers
     for (const key in McDonaldsBurgers) {
       const burger = McDonaldsBurgers[key];
-      await burgerCollection.insertOne({
+      const result = await burgerCollection.insertOne({
         name: burger.name,
         restaurant: "McDonald's",
         description: burger.description,
         imageUrl: "",
         createdAt: new Date(),
       });
+      mcdonaldsBurgerIds.push(result.insertedId); // save insertedId
     }
     // Import Burger King Burgers
     for (const key in BurgerKingBurgers) {
       const burger = BurgerKingBurgers[key];
-      await burgerCollection.insertOne({
+      const result = await burgerCollection.insertOne({
         name: burger.name,
         restaurant: "Burger King",
         description: burger.description,
         imageUrl: "",
         createdAt: new Date(),
       });
+      burgerKingBurgerIds.push(result.insertedId); // save insertedId
     }
     // Import Wendy's Burgers
     for (const key in wendysBurgers) {
       const burger = wendysBurgers[key];
-      await burgerCollection.insertOne({
+      const result = await burgerCollection.insertOne({
         name: burger.name,
         restaurant: "Wendy's",
         description: burger.description,
         imageUrl: "",
         createdAt: new Date(),
       });
+      wendysBurgerIds.push(result.insertedId); // save insertedId
     }
     // Import In-N-Out's Burgers
     for (const key in inNOutBurgers) {
       const burger = inNOutBurgers[key];
-      await burgerCollection.insertOne({
+      const result = await burgerCollection.insertOne({
         name: burger.name,
         restaurant: "In-N-Out",
         description: burger.description,
         imageUrl: "",
         createdAt: new Date(),
       });
+      inNOutBurgersIds.push(result.insertedId); // save insertedId
     }
 
     console.log("✅ Burgers seeded.");
@@ -119,7 +138,7 @@ const seedDatabase = async () => {
         username: user1_username.username,
         burgerId: burger1.insertedId,
         restaurantName: "Bob's Burgers",
-        rating: 5,
+        rating: 9,
         comment: "One of the best cheeseburgers I've had!",
         imageUrl: "",
         replies: [],
@@ -130,7 +149,7 @@ const seedDatabase = async () => {
         username: user2_username.username,
         burgerId: burger1.insertedId,
         restaurantName: "Bob's Burgers",
-        rating: 4,
+        rating: 6,
         comment: "Great burger, but I wish the bun was toasted more.",
         imageUrl: "",
         replies: [],
@@ -141,8 +160,181 @@ const seedDatabase = async () => {
         username: user1_username.username,
         burgerId: burger2.insertedId,
         restaurantName: "Grill Kings",
-        rating: 3,
+        rating: 6,
         comment: "The bacon was great, but the patty was a bit dry.",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+    ]);
+
+    await reviewCollection.insertMany([
+      // McDonald's Reviews
+      {
+        userId: user1.insertedId,
+        username: user1_username.username,
+        burgerId: mcdonaldsBurgerIds[0]._id,
+        restaurantName: "McDonald's",
+        rating: 7,
+        comment: "Classic taste, very satisfying!",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user1.insertedId,
+        username: user1_username.username,
+        burgerId: mcdonaldsBurgerIds[1]._id,
+        restaurantName: "McDonald's",
+        rating: 6,
+        comment: "Good but a little dry today.",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user2.insertedId,
+        username: user2_username.username,
+        burgerId: mcdonaldsBurgerIds[2]._id,
+        restaurantName: "McDonald's",
+        rating: 9,
+        comment: "Perfectly cooked, juicy and flavorful!",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user2.insertedId,
+        username: user2_username.username,
+        burgerId: mcdonaldsBurgerIds[3]._id,
+        restaurantName: "McDonald's",
+        rating: 8,
+        comment: "Great burger, fast service!",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user3.insertedId,
+        username: user3_username.username,
+        burgerId: mcdonaldsBurgerIds[4]._id,
+        restaurantName: "McDonald's",
+        rating: 2,
+        comment: "Not impressed, felt rushed.",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+
+      // Burger King Reviews
+      {
+        userId: user1.insertedId,
+        username: user1_username.username,
+        burgerId: burgerKingBurgerIds[0]._id,
+        restaurantName: "Burger King",
+        rating: 10,
+        comment: "Whopper is king for a reason!",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user2.insertedId,
+        username: user2_username.username,
+        burgerId: burgerKingBurgerIds[1]._id,
+        restaurantName: "Burger King",
+        rating: 4,
+        comment: "Decent burger, not amazing.",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user3.insertedId,
+        username: user3_username.username,
+        burgerId: burgerKingBurgerIds[2]._id,
+        restaurantName: "Burger King",
+        rating: 6,
+        comment: "Solid value for the price!",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user1.insertedId,
+        username: user1_username.username,
+        burgerId: burgerKingBurgerIds[3]._id,
+        restaurantName: "Burger King",
+        rating: 1,
+        comment: "Burger was cold when I got it.",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user2.insertedId,
+        username: user2_username.username,
+        burgerId: burgerKingBurgerIds[4]._id,
+        restaurantName: "Burger King",
+        rating: 7,
+        comment: "Loved every bite, fantastic service!",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+
+      // Wendy's Reviews
+      {
+        userId: user3.insertedId,
+        username: user3_username.username,
+        burgerId: wendysBurgerIds[0]._id,
+        restaurantName: "Wendy's",
+        rating: 8,
+        comment: "Fresh and juicy burger, highly recommend!",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user1.insertedId,
+        username: user1_username.username,
+        burgerId: wendysBurgerIds[1]._id,
+        restaurantName: "Wendy's",
+        rating: 5,
+        comment: "Pretty good, but the bun was soggy.",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user2.insertedId,
+        username: user2_username.username,
+        burgerId: wendysBurgerIds[2]._id,
+        restaurantName: "Wendy's",
+        rating: 5,
+        comment: "Average burger, nothing special.",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user3.insertedId,
+        username: user3_username.username,
+        burgerId: wendysBurgerIds[3]._id,
+        restaurantName: "Wendy's",
+        rating: 8,
+        comment: "Amazing quality, very impressed!",
+        imageUrl: "",
+        replies: [],
+        createdAt: new Date(),
+      },
+      {
+        userId: user1.insertedId,
+        username: user1_username.username,
+        burgerId: wendysBurgerIds[4]._id,
+        restaurantName: "Wendy's",
+        rating: 9,
+        comment: "Tasty burger, friendly staff!",
         imageUrl: "",
         replies: [],
         createdAt: new Date(),
