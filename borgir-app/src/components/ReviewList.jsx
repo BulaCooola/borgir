@@ -6,7 +6,6 @@ import axios from "axios";
 import { getReviews, reviewURLEndpoint as cacheKey } from "../api/borgirAPI";
 import ReviewForm from "./ReviewForm";
 
-import UserModal from "./UserModal";
 // const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 const borgirAPI = axios.create({
@@ -18,15 +17,30 @@ export default function ReviewList() {
   const [selectedUsername, setSelectedUsername] = useState(null);
   const [userReviews, setUserReviews] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [averageRating, setAverageRating] = useState(null);
 
   const fetchUserReviews = async (userId, username) => {
     setSelectedUserId(userId);
     setSelectedUsername(username);
     setUserReviews(null);
+    setAverageRating(null);
     setLoading(true);
 
     try {
       const response = await borgirAPI.get(`/reviews/user/${userId}`);
+      setUserReviews(response.data);
+
+      const reviewData = response.data;
+
+      // Calculate average rating
+      if (reviewData.length > 0) {
+        const total = reviewData.reduce((sum, r) => sum + r.rating, 0);
+        const avg = total / reviewData.length;
+        setAverageRating(avg.toFixed(1)); // round to 1 decimal
+      } else {
+        setAverageRating(null);
+      }
+
       setUserReviews(response.data);
     } catch (err) {
       console.error(err);
@@ -145,7 +159,11 @@ export default function ReviewList() {
                       ) : userReviews ? (
                         <>
                           <h2 className="text-xl font-bold text-white mb-2">@{selectedUsername}</h2>
-
+                          {averageRating && (
+                            <p className="text-lg font-semibold mt-2">
+                              Average Rating: ⭐ {averageRating}/10
+                            </p>
+                          )}
                           <h3 className="font-semibold text-white mb-2">Reviews:</h3>
 
                           <ul className="list-none list-inside space-y-1">
