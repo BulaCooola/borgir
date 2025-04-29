@@ -31,6 +31,12 @@ export default function NavigationBar() {
           </Link>
         )}
 
+        {token && (
+          <Link to="/your-reviews" className="mr-4">
+            Your Reviews
+          </Link>
+        )}
+
         {/* <Link to="/dashboard" className="mr-4">
           Dashboard
         </Link> */}

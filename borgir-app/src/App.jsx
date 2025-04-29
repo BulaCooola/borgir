@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp.jsx";
 import ReviewPage from "./pages/ReviewPage.jsx";
 import RestaurantReviewsPage from "./pages/RestaurantReviewsPage.jsx";
+import YourReviewsPage from "./pages/YourReviewsPage.jsx";
+
 import NavigationBar from "./components/NavigationBar.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import DevOpsDashboard from "./pages/DevOpsDashboard.jsx";
@@ -37,6 +39,14 @@ function App() {
           element={
             <PrivateRoute>
               <RestaurantReviewsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/your-reviews"
+          element={
+            <PrivateRoute>
+              <YourReviewsPage />
             </PrivateRoute>
           }
         />

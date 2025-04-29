@@ -122,7 +122,7 @@ export default function ReviewForm() {
     <>
       {/* Create or Edit Review Form */}
       <button className="btn" onClick={() => document.getElementById("create_form").showModal()}>
-        Create Form
+        Create Review
       </button>
 
       <dialog className="modal bg-white p-6 rounded-lg w-full" id="create_form">

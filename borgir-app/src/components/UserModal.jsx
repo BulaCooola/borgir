@@ -6,30 +6,19 @@ const borgirAPI = axios.create({
 });
 
 export default function UserModal({ userId, username }) {
-  const [isOpen, setIsOpen] = useState(false);
   const [userReviews, setUserReviews] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const openModal = () => {
-    setIsOpen(true);
-    document.body.style.overflow = "hidden"; // 🚫 disable scroll
-    fetchUserData();
-  };
-  const closeModal = () => {
-    setIsOpen(false);
-    document.body.style.overflow = "auto"; // ✅ enable scroll again
-  };
-
-  const fetchUserData = async () => {
+  const fetchUserData = async (userId, username) => {
     try {
       setLoading(true);
 
       const response = await borgirAPI.get(`/reviews/user/${userId}`); // Adjust this endpoint as needed
-
+      console.log(response);
       setUserReviews(response.data);
     } catch (error) {
       console.error(error);
-      setUser(null);
+      setUserReviews(null);
     } finally {
       setLoading(false);
     }
@@ -42,14 +31,14 @@ export default function UserModal({ userId, username }) {
       <p
         className="text-sm font-bold text-blue-500 cursor-pointer hover:underline inline-block"
         onClick={() => {
-          fetchUserData();
-          document.getElementById("my_modal_3").showModal();
+          fetchUserData(userId, username);
+          document.getElementById(`user_modal`).showModal();
         }}
       >
         @{username}
       </p>
 
-      <dialog id="my_modal_3" className="modal">
+      <dialog id={`user_modal`} className="modal">
         <div className="modal-box">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -66,11 +55,11 @@ export default function UserModal({ userId, username }) {
               <h3 className="font-semibold text-white mb-2">Reviews:</h3>
 
               <ul className="list-none list-inside space-y-1">
-                {userReviews && userReviews.length > 0 ? (
+                {userReviews.length > 0 ? (
                   userReviews.map((review, idx) => (
-                    <div className="card card-border bg-base-300 w-96">
+                    <div key={idx} className="card card-border bg-base-300 w-96">
                       <div className="card-body">
-                        <li key={idx} className="text-gray-600">
+                        <li className="text-gray-600">
                           <h2 className="card-title text-white">
                             🍔 {review.restaurantName}: ⭐{review.rating}/10
                           </h2>

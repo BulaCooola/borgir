@@ -14,6 +14,29 @@ const borgirAPI = axios.create({
 });
 
 export default function ReviewList() {
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedUsername, setSelectedUsername] = useState(null);
+  const [userReviews, setUserReviews] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const fetchUserReviews = async (userId, username) => {
+    setSelectedUserId(userId);
+    setSelectedUsername(username);
+    setUserReviews(null);
+    setLoading(true);
+
+    try {
+      const response = await borgirAPI.get(`/reviews/user/${userId}`);
+      setUserReviews(response.data);
+    } catch (err) {
+      console.error(err);
+      setUserReviews(null);
+    } finally {
+      setLoading(false);
+      document.getElementById("user_modal").showModal();
+    }
+  };
+
   const {
     data: topics,
     error,
@@ -52,7 +75,7 @@ export default function ReviewList() {
     setNewTopic({ title: "", description: "" });
   };
 
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>Loading Content</div>;
@@ -96,12 +119,62 @@ export default function ReviewList() {
                   )}
 
                   <h2 className="font-bold text-lg text-gray-900">{topic.comment}</h2>
-
                   <p className="text-gray-700 mt-2">{new Date(topic.createdAt).toLocaleString()}</p>
-                  {/* <p className="text-sm text-gray-500" id={topic.userId}>
-                    Posted by {topic.username}
-                  </p> */}
-                  <UserModal userId={topic.userId} username={topic.username} />
+
+                  {/* MODAL BUTTON*/}
+                  <p
+                    className="text-sm font-bold text-blue-500 cursor-pointer hover:underline inline-block"
+                    onClick={() => fetchUserReviews(topic.userId, topic.username)}
+                  >
+                    @{topic.username}
+                  </p>
+
+                  {/* MODAL CONTENT */}
+                  <dialog id={`user_modal`} className="modal">
+                    <div className="modal-box">
+                      <form method="dialog">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                          ✕
+                        </button>
+                      </form>
+                      <form method="dialog" className="modal-backdrop">
+                        <button>close</button>
+                      </form>
+                      {loading ? (
+                        <p className="text-gray-600">Loading...</p>
+                      ) : userReviews ? (
+                        <>
+                          <h2 className="text-xl font-bold text-white mb-2">@{selectedUsername}</h2>
+
+                          <h3 className="font-semibold text-white mb-2">Reviews:</h3>
+
+                          <ul className="list-none list-inside space-y-1">
+                            {userReviews.length > 0 ? (
+                              userReviews.map((review, idx) => (
+                                <div key={idx} className="card card-border bg-base-300 w-96">
+                                  <div className="card-body">
+                                    <li className="text-gray-600">
+                                      <h2 className="card-title text-white">
+                                        🍔 {review.restaurantName}: ⭐{review.rating}/10
+                                      </h2>
+                                      <p className="text-xs text-white">
+                                        {new Date(review.createdAt).toLocaleString()}
+                                      </p>
+                                      <p className="text-md text-white">"{review.comment}"</p>
+                                    </li>
+                                  </div>
+                                </div>
+                              ))
+                            ) : (
+                              <li className="text-gray-500 italic">No reviews available.</li>
+                            )}
+                          </ul>
+                        </>
+                      ) : (
+                        <p className="text-gray-600">User not found.</p>
+                      )}
+                    </div>
+                  </dialog>
 
                   {/* Button to Toggle Replies */}
                   <button
