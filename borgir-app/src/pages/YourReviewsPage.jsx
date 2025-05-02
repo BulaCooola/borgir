@@ -9,8 +9,11 @@ export default function YourReviewsPage() {
   const [userReviews, setUserReviews] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [averageRating, setAverageRating] = useState(null);
 
   const fetchUserData = async () => {
+    setAverageRating(null);
+
     try {
       let token = localStorage.getItem("token");
       setLoading(true);
@@ -21,6 +24,16 @@ export default function YourReviewsPage() {
       }); // Adjust this endpoint as needed
 
       setUserReviews(response.data);
+      let reviewData = response.data;
+
+      // Calculate average rating
+      if (reviewData.length > 0) {
+        const total = reviewData.reduce((sum, r) => sum + r.rating, 0);
+        const avg = total / reviewData.length;
+        setAverageRating(avg.toFixed(1)); // round to 1 decimal
+      } else {
+        setAverageRating(null);
+      }
     } catch (error) {
       console.error(error);
       setUserReviews(null);
@@ -49,8 +62,11 @@ export default function YourReviewsPage() {
           <p className="text-gray-600">Loading...</p>
         ) : userReviews ? (
           <>
-            <h2 className="text-xl font-bold text-white mb-2">@{username}</h2>
+            <h2 className="text-xl font-bold text-white mb-2">@{userReviews[0].username}</h2>
 
+            {averageRating && (
+              <p className="text-lg font-semibold mt-2">Average Rating: ⭐ {averageRating}/10</p>
+            )}
             <h3 className="font-semibold text-white mb-2">Reviews:</h3>
 
             <ul className="list-none list-inside space-y-1">

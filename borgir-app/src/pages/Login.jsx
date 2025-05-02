@@ -7,6 +7,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [visible, setVisible] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,14 +60,24 @@ export default function Login() {
         placeholder="Email"
         required
       />
-      <input
-        className="border p-2 w-full rounded"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
+      <div className="relative">
+        <input
+          type={visible ? "text" : "password"}
+          className="input input-bordered w-full pr-10"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter password"
+          required
+        />
+        <button
+          type="button"
+          onClick={() => setVisible(!visible)}
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-600"
+        >
+          {visible ? "🙈" : "👁️"}
+        </button>
+      </div>
       <button className="bg-black text-white px-4 py-2 rounded w-full" type="submit">
         Log In
       </button>

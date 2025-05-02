@@ -9,6 +9,7 @@ export default function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
+  const [visible, setVisible] = useState(false);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -48,14 +49,24 @@ export default function Signup() {
           placeholder="Email"
           required
         />
-        <input
-          className="border p-2 w-full rounded"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
+        <div className="relative border w-full rounded">
+          <input
+            type={visible ? "text" : "password"}
+            className="input input-bordered w-full pr-10"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setVisible(!visible)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-600"
+          >
+            {visible ? "🙈" : "👁️"}
+          </button>
+        </div>
         <input
           className="border p-2 w-full rounded"
           type="text"
